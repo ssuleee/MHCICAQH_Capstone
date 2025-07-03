@@ -1,0 +1,887 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Service Location Address</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f7f7f7;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      max-width: 1100px;
+      margin: 40px auto;
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      padding: 0 0 30px 0;
+      position: relative;
+      transition: width 0.6s cubic-bezier(.4,0,.2,1), max-width 0.6s cubic-bezier(.4,0,.2,1), margin 0.6s cubic-bezier(.4,0,.2,1);
+      will-change: width, max-width, margin;
+    }
+    body.caqh-sidebar-open .container {
+      width: calc(100vw - 393px);
+      max-width: none;
+      margin-left: 0;
+      margin-right: 0;
+    }
+    #caqh-sidebar {
+      transition: transform 0.4s cubic-bezier(.4,0,.2,1);
+      will-change: transform;
+      transform: translateX(393px);
+      position: fixed;
+      top: 0;
+      right: 0;
+      height: 100vh;
+      z-index: 1001;
+      display: block !important;
+      border-left: 1.5px solid #E3E3E3;
+    }
+    body.caqh-sidebar-open #caqh-sidebar {
+      transform: translateX(0);
+    }
+    #caqh-sidebar-overlay {
+      transition: opacity 0.4s;
+      opacity: 0;
+      pointer-events: none;
+      background: transparent !important;
+    }
+    body.caqh-sidebar-open #caqh-sidebar-overlay {
+      opacity: 0;
+      pointer-events: none;
+      background: transparent !important;
+    }
+    .header {
+      background: #e5e5e5;
+      padding: 20px 30px;
+      border-radius: 8px 8px 0 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .header .logo {
+      font-size: 1.5em;
+      font-weight: bold;
+      color: #444;
+    }
+    .header .info {
+      font-size: 0.95em;
+      color: #333;
+      text-align: right;
+    }
+    .sidebar {
+      float: left;
+      width: 220px;
+      background: #f2f2f2;
+      min-height: 600px;
+      border-right: 1px solid #ddd;
+      padding: 0;
+      margin: 0;
+      border-radius: 0 0 0 8px;
+    }
+    .sidebar ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .sidebar li {
+      padding: 16px 24px;
+      border-bottom: 1px solid #e0e0e0;
+      color: #444;
+      cursor: pointer;
+    }
+    .sidebar li.active {
+      background: #444;
+      color: #fff;
+      font-weight: bold;
+    }
+    .main-content {
+      margin-left: 220px;
+      padding: 30px 40px;
+    }
+    .section-title {
+      font-size: 1.2em;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+    .section-subtitle {
+      color: #666;
+      margin-bottom: 20px;
+      font-size: 0.98em;
+    }
+    .form-section {
+      background: #f5f5f5;
+      border: 1px solid #bbb;
+      padding: 20px 30px;
+      border-radius: 6px;
+      margin-bottom: 20px;
+    }
+    .form-section p {
+      font-size: 0.98em;
+      color: #333;
+      margin-bottom: 18px;
+    }
+    form {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 18px 24px;
+    }
+    .form-group {
+      flex: 1 1 320px;
+      min-width: 220px;
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 10px;
+    }
+    .form-group label {
+      font-weight: 500;
+      margin-bottom: 6px;
+      color: #222;
+    }
+    .form-group input,
+    .form-group select {
+      padding: 8px 10px;
+      border: 1px solid #bbb;
+      border-radius: 4px;
+      font-size: 1em;
+      background: #fff;
+    }
+    .form-group input:required {
+      border-left: 3px solid #0072ce;
+    }
+    .form-actions {
+      margin-top: 20px;
+      text-align: right;
+    }
+    .form-actions button {
+      background: #0072ce;
+      color: #fff;
+      border: none;
+      padding: 10px 24px;
+      border-radius: 4px;
+      font-size: 1em;
+      cursor: pointer;
+    }
+    .note {
+      font-size: 0.95em;
+      color: #666;
+      margin-top: 18px;
+    }
+    @media (max-width: 900px) {
+      .container { max-width: 100%; }
+      .sidebar { width: 100%; float: none; border-radius: 0; }
+      .main-content { margin-left: 0; padding: 20px 10px; }
+      form { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <div class="logo">pennsylvania<br><span style="font-size:0.7em;font-weight:normal;">DEPARTMENT OF HUMAN SERVICES</span></div>
+      <div class="info">
+        <div>ATN: 1101359453</div>
+        <div>Provider Number: Pending</div>
+        <div>Type: New Enrollment</div>
+        <div>Start Date: 06/17/2025</div>
+        <div>Completion By: 07/17/2025</div>
+      </div>
+    </div>
+    <div style="background:#444;color:#fff;padding:12px 24px;border-radius:6px;margin:24px 0 18px 0;display:flex;gap:32px;align-items:center;font-size:1em;font-weight:500;">
+      <span>ATN: 1101359453</span>
+      <span>Provider Number: Pending</span>
+      <span>Type: New Enrollment</span>
+      <span>Start Date: 06/17/2025</span>
+    </div>
+    <div class="sidebar">
+      <ul>
+        <li>Welcome</li>
+        <li>Request Information</li>
+        <li class="active">Service Location Address</li>
+        <li>Other Addresses</li>
+        <li>Specialties</li>
+        <li>Provider Eligibility Program (PEP)</li>
+        <li>Provider Identification</li>
+        <li>Additional Information</li>
+        <li>Provider Disclosures</li>
+        <li>Ownership / Control Interest</li>
+        <li>Attachments</li>
+        <li>Agreements</li>
+        <li>Summary</li>
+      </ul>
+    </div>
+    <div class="main-content">
+      <img id="caqh-autofill-btn" src="Frame 2085.png" alt="Autofill with CAQH" style="display:block;background:#1766b3;border-radius:8px;box-shadow:0 2px 6px rgba(23,102,179,0.08);padding:0;margin:0 0 24px 0;cursor:pointer;height:48px;width:auto;">
+      <div class="section-title">Service Location Address</div>
+      <div class="section-subtitle">
+        Complete the fields on this page and select the Save and Continue button to continue with this application<br>
+        <span style="color:#c00">*</span> Indicates a required field.<br>
+        <span style="font-size:0.95em;">📎 Indicates an attachment is required.</span>
+      </div>
+      <div class="form-section">
+        <div class="section-title" style="font-size:1.1em;">Practitioner Information</div>
+        <form style="margin-bottom:0;">
+          <div class="form-group">
+            <label for="first_name">* First Name</label>
+            <input type="text" id="first_name" name="first_name" required>
+          </div>
+          <div class="form-group">
+            <label for="middle_name">Middle Name</label>
+            <input type="text" id="middle_name" name="middle_name">
+          </div>
+          <div class="form-group">
+            <label for="last_name">* Last Name</label>
+            <input type="text" id="last_name" name="last_name" required>
+          </div>
+          <div class="form-group">
+            <label for="contact_phone">* Phone Number</label>
+            <input type="tel" id="contact_phone" name="contact_phone" required pattern="\d{3}-\d{3}-\d{4}" placeholder="###-###-####">
+          </div>
+          <div class="form-group">
+            <label for="phone_ext">Phone Extension</label>
+            <input type="text" id="phone_ext" name="phone_ext">
+          </div>
+          <div class="form-group">
+            <label for="fax">Fax Number</label>
+            <input type="tel" id="fax" name="fax" pattern="\d{3}-\d{3}-\d{4}" placeholder="###-###-####">
+          </div>
+          <div class="form-group">
+            <label for="contact_email">* Email</label>
+            <input type="email" id="contact_email" name="contact_email" required>
+          </div>
+          <div class="form-group">
+            <label for="npi">* NPI Number</label>
+            <input type="text" id="npi" name="npi" required pattern="\d{10}" placeholder="10-digit NPI">
+          </div>
+          <div class="form-group">
+            <label for="license_number">* Licensing Number</label>
+            <input type="text" id="license_number" name="license_number" required>
+          </div>
+          <div class="form-group">
+            <label for="license_state">* Licensing State</label>
+            <select id="license_state" name="license_state" required>
+              <option value="">Select State</option>
+              <option value="PA">PA - Pennsylvania</option>
+              <!-- Add more states as needed -->
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="license_expiration">* Licensing Expiration Date</label>
+            <input type="date" id="license_expiration" name="license_expiration" required>
+          </div>
+        </form>
+      </div>
+      <div class="form-section">
+        <div class="section-title" style="font-size:1.1em;">Service Location Physical Address</div>
+        <p>
+          This address must be a physical address where a practitioner maintains an office, holds office hours/sets appointments and renders services. A post office box is not a valid Service Location Physical Address.<br>
+          Verify your selection of the service location physical address state prior to saving this page. Once this information is saved, it cannot be changed. If this information is incorrect, you will need to begin a <a href="#">brand new</a> application.
+        </p>
+        <form id="address-form">
+          <div class="form-group">
+            <label for="practice_location">Practice Location</label>
+            <input type="text" id="practice_location" name="practice_location" placeholder="Practice Location Name">
+          </div>
+          <div class="form-group">
+            <label for="street">* Street</label>
+            <input type="text" id="street" name="street" required>
+          </div>
+          <div class="form-group">
+            <label for="room">Room/Suite</label>
+            <input type="text" id="room" name="room">
+          </div>
+          <div class="form-group">
+            <label for="city">* City</label>
+            <input type="text" id="city" name="city" required>
+          </div>
+          <div class="form-group">
+            <label for="state">* State</label>
+            <select id="state" name="state" required>
+              <option value="PA">PA - Pennsylvania</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="zip">* Zip+4</label>
+            <input type="text" id="zip" name="zip" required pattern="\d{5}(-\d{4})?" placeholder="12345 or 12345-6789">
+          </div>
+          <div class="form-group">
+            <label for="county">* County</label>
+            <select id="county" name="county" required>
+              <option value="">Select a County</option>
+              <option>Adams</option>
+              <option>Allegheny</option>
+              <option>Armstrong</option>
+              <option>Beaver</option>
+              <option>Bedford</option>
+              <option>Berks</option>
+              <option>Blair</option>
+              <option>Bradford</option>
+              <option>Bucks</option>
+              <option>Butler</option>
+              <option>Cambria</option>
+              <option>Cameron</option>
+              <option>Carbon</option>
+              <option>Centre</option>
+              <option>Chester</option>
+              <option>Clarion</option>
+              <option>Clearfield</option>
+              <option>Clinton</option>
+              <option>Columbia</option>
+              <option>Crawford</option>
+              <option>Cumberland</option>
+              <option>Dauphin</option>
+              <option>Delaware</option>
+              <option>Elk</option>
+              <option>Erie</option>
+              <option>Fayette</option>
+              <option>Forest</option>
+              <option>Franklin</option>
+              <option>Fulton</option>
+              <option>Greene</option>
+              <option>Huntingdon</option>
+              <option>Indiana</option>
+              <option>Jefferson</option>
+              <option>Juniata</option>
+              <option>Lackawanna</option>
+              <option>Lancaster</option>
+              <option>Lawrence</option>
+              <option>Lebanon</option>
+              <option>Lehigh</option>
+              <option>Luzerne</option>
+              <option>Lycoming</option>
+              <option>McKean</option>
+              <option>Monroe</option>
+              <option>Montgomery</option>
+              <option>Montour</option>
+              <option>Northampton</option>
+              <option>Northumberland</option>
+              <option>Perry</option>
+              <option>Philadelphia</option>
+              <option>Pike</option>
+              <option>Potter</option>
+              <option>Schuylkill</option>
+              <option>Snyder</option>
+              <option>Somerset</option>
+              <option>Sullivan</option>
+              <option>Susquehanna</option>
+              <option>Tioga</option>
+              <option>Union</option>
+              <option>Venango</option>
+              <option>Warren</option>
+              <option>Washington</option>
+              <option>Wayne</option>
+              <option>Westmoreland</option>
+              <option>Wyoming</option>
+              <option>York</option>
+            </select>
+          </div>
+        </form>
+        <div class="form-actions">
+          <button type="submit">Save and Continue</button>
+        </div>
+        <div class="note">
+          After this information is saved, you will have the option to enter different address information for Mail-To, Pay-To, and Home Office Addresses.
+        </div>
+      </div>
+    </div>
+    <div style="clear:both"></div>
+  </div>
+  <!-- CAQH Autofill Sidebar Drawer -->
+  <div id="caqh-sidebar-overlay" style="display:none;position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,0.18);z-index:1000;"></div>
+  <aside id="caqh-sidebar" style="display:none;position:fixed;top:0;right:0;width:393px;max-width:100vw;height:100vh;background:#f5f6f7;z-index:1001;box-shadow:-1.5px 0 0 0 #E3E3E3;box-shadow:-1px 0 10px 0 rgba(188,188,188,0.25);padding:0;overflow-y:auto;font-family:Arial,sans-serif;display:flex;flex-direction:column;">
+    <!-- Top bar -->
+    <div style="position:sticky;top:0;z-index:2;background:#fff;height:46px;display:flex;align-items:center;justify-content:space-between;padding:0 20px 0 20px;box-shadow:0 1px 10px 0 rgba(188,188,188,0.25);border-bottom:1px solid #e3e3e3;">
+      <div style="display:flex;align-items:center;gap:10px;">
+        <img src='logo.png' alt='CAQH' style='height:26px;width:auto;'>
+        <span style="color:#034f91;font-weight:600;font-size:1.08em;margin-left:8px;letter-spacing:0.01em;">Autofill</span>
+      </div>
+      <button id="caqh-sidebar-close" style="background:none;border:none;font-size:1.5em;line-height:1;color:#aaa;cursor:pointer;padding:0 0 4px 0;">&times;</button>
+    </div>
+    <div style="display:flex;flex-direction:column;align-items:center;width:100%;flex:1 1 auto;min-height:0;">
+      <div style="background:#f5f6f7;border-radius:12px;padding:28px 20px 24px 20px;box-shadow:0 2px 10px 0 rgba(188,188,188,0.10);margin:24px 0 0 0;width:calc(100% - 0px);max-width:360px;display:flex;flex-direction:column;gap:0;">
+        <div style="font-size:1.01em;font-weight:400;margin-bottom:18px;color:#2f3e5c;line-height:1.5;">With CAQH autofill, you could auto-fill the provider information with the CAQH Provider Data Portal.</div>
+        <div style="font-size:0.98em;color:#2f3e5c;margin-bottom:22px;line-height:1.5;">Please select a provider within your organization in CAQH portal to continue:</div>
+        <div style="margin-bottom:18px;">
+          <div style="background:#fff;border-radius:8px;box-shadow:0 1px 4px 0 rgba(188,188,188,0.10);margin-bottom:14px;position:relative;">
+            <input id="caqh-provider-input" type="text" placeholder="Provider Name" autocomplete="off" style="width:100%;padding:13px 12px;border:none;border-radius:8px;font-size:1em;background:#fff;color:#2f3e5c;outline:none;font-weight:400;opacity:0.5;" onfocus="this.style.opacity=1" onblur="if(!this.value)this.style.opacity=0.5">
+            <ul id="caqh-provider-list" style="display:none;position:absolute;top:100%;left:0;width:100%;background:#fff;z-index:10;list-style:none;margin:0;padding:0;border-radius:0 0 8px 8px;box-shadow:0 2px 8px rgba(23,102,179,0.08);max-height:180px;overflow-y:auto;"></ul>
+          </div>
+          <div style="background:#fff;border-radius:8px;box-shadow:0 1px 4px 0 rgba(188,188,188,0.10);position:relative;">
+            <input id="caqh-id-input" type="text" placeholder="CAQH ID" autocomplete="off" style="width:100%;padding:13px 12px;border:none;border-radius:8px;font-size:1em;background:#fff;color:#2f3e5c;outline:none;font-weight:400;opacity:0.5;" onfocus="this.style.opacity=1" onblur="if(!this.value)this.style.opacity=0.5">
+            <ul id="caqh-id-list" style="display:none;position:absolute;top:100%;left:0;width:100%;background:#fff;z-index:10;list-style:none;margin:0;padding:0;border-radius:0 0 8px 8px;box-shadow:0 2px 8px rgba(23,102,179,0.08);max-height:180px;overflow-y:auto;"></ul>
+          </div>
+        </div>
+        <a href="#" style="font-size:0.97em;color:#6b6f76;text-decoration:underline;display:inline-block;margin-bottom:28px;font-weight:400;">Not finding a provider?</a>
+        <div style="display:flex;justify-content:center;width:100%;">
+          <button id="caqh-continue-btn" style="background:#034f91;color:#fff;font-weight:600;padding:12px 44px 12px 44px;border:none;border-radius:22px;font-size:1.08em;cursor:pointer;box-shadow:0 2px 6px rgba(23,102,179,0.08);margin:0 auto;display:inline-block;">Continue</button>
+        </div>
+      </div>
+    </div>
+    <div style="width:calc(100% - 40px);max-width:360px;padding:0 0 24px 0;margin:0 20px 0 20px;font-size:0.85em;color:#034f91;align-self:center;margin-top:auto;flex-shrink:0;">
+      <a href="#" style="color:#034f91;text-decoration:underline;font-weight:400;">What is CAQH Autofill?</a><br>
+      <a href="#" style="color:#034f91;text-decoration:underline;font-weight:400;">CAQH Provider Data Portal</a>
+    </div>
+  </aside>
+  <script>
+    const caqhBtn = document.getElementById('caqh-autofill-btn');
+    const caqhSidebar = document.getElementById('caqh-sidebar');
+    const caqhOverlay = document.getElementById('caqh-sidebar-overlay');
+    const caqhClose = document.getElementById('caqh-sidebar-close');
+    caqhBtn.onclick = function() {
+      caqhOverlay.style.display = 'block';
+      document.body.classList.add('caqh-sidebar-open');
+    };
+    caqhClose.onclick = function() {
+      document.body.classList.remove('caqh-sidebar-open');
+      // Hide overlay after transition
+      setTimeout(() => {
+        caqhOverlay.style.display = 'none';
+      }, 400);
+    };
+    // Hide overlay after transition
+    caqhSidebar.addEventListener('transitionend', function(e) {
+      if (!document.body.classList.contains('caqh-sidebar-open')) {
+        caqhOverlay.style.display = 'none';
+      }
+    });
+    const providerInput = document.getElementById('caqh-provider-input');
+    const providerList = document.getElementById('caqh-provider-list');
+    const idInput = document.getElementById('caqh-id-input');
+    const idList = document.getElementById('caqh-id-list');
+    const providers = [
+      { name: 'Elena Novak', id: '1234567890', value: 'elena' },
+      { name: 'John Smith', id: '2345678901', value: 'john' },
+      { name: 'Lisa Chen', id: '3456789012', value: 'lisa' },
+      { name: 'Michael Patel', id: '4567890123', value: 'michael' },
+      { name: 'Sophia Garcia', id: '5678901234', value: 'sophia' }
+    ];
+    function showProviderList(filtered) {
+      providerList.innerHTML = '';
+      filtered.forEach(p => {
+        const li = document.createElement('li');
+        li.textContent = p.name;
+        li.style.padding = '12px 16px';
+        li.style.cursor = 'pointer';
+        li.style.fontSize = '1em';
+        li.style.color = '#2f3e5c';
+        li.onmousedown = function() {
+          providerInput.value = p.name;
+          providerInput.style.opacity = 1;
+          idInput.value = p.id;
+          idInput.style.opacity = 1;
+          providerList.style.display = 'none';
+          idList.style.display = 'none';
+        };
+        providerList.appendChild(li);
+      });
+      providerList.style.display = filtered.length ? 'block' : 'none';
+    }
+    function showIdList(filtered) {
+      idList.innerHTML = '';
+      filtered.forEach(p => {
+        const li = document.createElement('li');
+        li.textContent = p.id;
+        li.style.padding = '12px 16px';
+        li.style.cursor = 'pointer';
+        li.style.fontSize = '1em';
+        li.style.color = '#2f3e5c';
+        li.onmousedown = function() {
+          idInput.value = p.id;
+          idInput.style.opacity = 1;
+          providerInput.value = p.name;
+          providerInput.style.opacity = 1;
+          idList.style.display = 'none';
+          providerList.style.display = 'none';
+        };
+        idList.appendChild(li);
+      });
+      idList.style.display = filtered.length ? 'block' : 'none';
+    }
+    providerInput.addEventListener('focus', function() {
+      providerInput.style.opacity = providerInput.value ? 1 : 0.5;
+      showProviderList(providers);
+    });
+    providerInput.addEventListener('input', function() {
+      providerInput.style.opacity = providerInput.value ? 1 : 0.5;
+      const val = providerInput.value.toLowerCase();
+      const filtered = providers.filter(p => p.name.toLowerCase().includes(val));
+      showProviderList(filtered);
+      // If exact match, select CAQH ID
+      const match = providers.find(p => p.name.toLowerCase() === val);
+      if (match) {
+        idInput.value = match.id;
+        idInput.style.opacity = 1;
+      } else {
+        idInput.value = '';
+        idInput.style.opacity = 0.5;
+      }
+    });
+    providerInput.addEventListener('blur', function() {
+      setTimeout(() => providerList.style.display = 'none', 100);
+      providerInput.style.opacity = providerInput.value ? 1 : 0.5;
+    });
+    idInput.addEventListener('focus', function() {
+      idInput.style.opacity = idInput.value ? 1 : 0.5;
+      showIdList(providers);
+    });
+    idInput.addEventListener('input', function() {
+      idInput.style.opacity = idInput.value ? 1 : 0.5;
+      const val = idInput.value;
+      const filtered = providers.filter(p => p.id.includes(val));
+      showIdList(filtered);
+      // If exact match, select provider name
+      const match = providers.find(p => p.id === val);
+      if (match) {
+        providerInput.value = match.name;
+        providerInput.style.opacity = 1;
+      }
+    });
+    idInput.addEventListener('blur', function() {
+      setTimeout(() => idList.style.display = 'none', 100);
+      idInput.style.opacity = idInput.value ? 1 : 0.5;
+    });
+    idInput.style.opacity = 0.5;
+    // Provider data for autofill
+    const providerData = {
+      elena: {
+        first_name: 'Elena',
+        middle_name: 'M.',
+        last_name: 'Novak',
+        contact_phone: '215-555-1234',
+        contact_email: 'elena.novak@email.com',
+        npi: '1234567890',
+        license_number: 'PA12345',
+        license_state: 'PA',
+        license_expiration: '2026-12-31'
+      },
+      john: {
+        first_name: 'John',
+        middle_name: 'A.',
+        last_name: 'Smith',
+        contact_phone: '412-555-2345',
+        contact_email: 'john.smith@email.com',
+        npi: '2345678901',
+        license_number: 'PA23456',
+        license_state: 'PA',
+        license_expiration: '2027-05-15'
+      },
+      lisa: {
+        first_name: 'Lisa',
+        middle_name: 'B.',
+        last_name: 'Chen',
+        contact_phone: '610-555-3456',
+        contact_email: 'lisa.chen@email.com',
+        npi: '3456789012',
+        license_number: 'PA34567',
+        license_state: 'PA',
+        license_expiration: '2025-09-20'
+      },
+      michael: {
+        first_name: 'Michael',
+        middle_name: 'C.',
+        last_name: 'Patel',
+        contact_phone: '717-555-4567',
+        contact_email: 'michael.patel@email.com',
+        npi: '4567890123',
+        license_number: 'PA45678',
+        license_state: 'PA',
+        license_expiration: '2028-03-10'
+      },
+      sophia: {
+        first_name: 'Sophia',
+        middle_name: 'D.',
+        last_name: 'Garcia',
+        contact_phone: '570-555-5678',
+        contact_email: 'sophia.garcia@email.com',
+        npi: '5678901234',
+        license_number: 'PA56789',
+        license_state: 'PA',
+        license_expiration: '2026-07-01'
+      }
+    };
+    // Practice locations for providers (example for Elena Novak)
+    const providerLocations = {
+      elena: [
+        'Penn Medicine - Market Street',
+        'Penn Medicine - Walnut Street',
+        'Penn Medicine - Chestnut Street'
+      ],
+      john: [ 'UPMC Main Campus' ],
+      lisa: [ 'Jefferson Health Center' ],
+      michael: [ 'Geisinger Clinic' ],
+      sophia: [ 'St. Luke\'s Bethlehem' ]
+    };
+    // Address data for each provider/location
+    const providerAddresses = {
+      elena: {
+        'Penn Medicine - Market Street': {
+          street: '123 Market St',
+          room: 'Suite 200',
+          city: 'Philadelphia',
+          state: 'PA',
+          zip: '19106',
+          county: 'Philadelphia',
+          email: 'elena.novak@email.com',
+          phone: '215-555-1234',
+          phone_ext: '',
+          fax: '215-555-4321'
+        },
+        'Penn Medicine - Walnut Street': {
+          street: '456 Walnut St',
+          room: 'Suite 300',
+          city: 'Philadelphia',
+          state: 'PA',
+          zip: '19103',
+          county: 'Philadelphia',
+          email: 'elena.novak@email.com',
+          phone: '215-555-5678',
+          phone_ext: '',
+          fax: '215-555-8765'
+        },
+        'Penn Medicine - Chestnut Street': {
+          street: '789 Chestnut St',
+          room: '',
+          city: 'Philadelphia',
+          state: 'PA',
+          zip: '19107',
+          county: 'Philadelphia',
+          email: 'elena.novak@email.com',
+          phone: '215-555-2468',
+          phone_ext: '',
+          fax: '215-555-8642'
+        }
+      },
+      john: {
+        'UPMC Main Campus': {
+          street: '200 Lothrop St',
+          room: '',
+          city: 'Pittsburgh',
+          state: 'PA',
+          zip: '15213',
+          county: 'Allegheny',
+          email: 'john.smith@email.com',
+          phone: '412-555-2345',
+          phone_ext: '',
+          fax: '412-555-5432'
+        }
+      },
+      lisa: {
+        'Jefferson Health Center': {
+          street: '1020 Sansom St',
+          room: '',
+          city: 'Philadelphia',
+          state: 'PA',
+          zip: '19107',
+          county: 'Philadelphia',
+          email: 'lisa.chen@email.com',
+          phone: '610-555-3456',
+          phone_ext: '',
+          fax: '610-555-6543'
+        }
+      },
+      michael: {
+        'Geisinger Clinic': {
+          street: '100 N Academy Ave',
+          room: '',
+          city: 'Danville',
+          state: 'PA',
+          zip: '17822',
+          county: 'Montour',
+          email: 'michael.patel@email.com',
+          phone: '717-555-4567',
+          phone_ext: '',
+          fax: '717-555-7654'
+        }
+      },
+      sophia: {
+        "St. Luke's Bethlehem": {
+          street: '801 Ostrum St',
+          room: '',
+          city: 'Bethlehem',
+          state: 'PA',
+          zip: '18015',
+          county: 'Lehigh',
+          email: 'sophia.garcia@email.com',
+          phone: '570-555-5678',
+          phone_ext: '',
+          fax: '570-555-8765'
+        }
+      }
+    };
+    // Autofill logic on Continue
+    document.getElementById('caqh-continue-btn').onclick = function(e) {
+      e.preventDefault();
+      // Find selected provider by name or id
+      const nameVal = providerInput.value.trim();
+      const idVal = idInput.value.trim();
+      let selected = providers.find(p => p.name === nameVal) || providers.find(p => p.id === idVal);
+      if (!selected || !providerData[selected.value]) return;
+      const data = providerData[selected.value];
+      // Fill practitioner info fields (including contact info)
+      document.getElementById('first_name').value = data.first_name;
+      document.getElementById('middle_name').value = data.middle_name;
+      document.getElementById('last_name').value = data.last_name;
+      document.getElementById('contact_phone').value = data.contact_phone;
+      document.getElementById('contact_email').value = data.contact_email;
+      document.getElementById('npi').value = data.npi;
+      document.getElementById('license_number').value = data.license_number;
+      document.getElementById('license_state').value = data.license_state;
+      document.getElementById('license_expiration').value = data.license_expiration;
+      // Show location selection step in sidebar
+      showLocationStep(selected);
+    };
+    function showLocationStep(selectedProvider) {
+      // Find provider name for display
+      const providerObj = providers.find(p => p.value === selectedProvider.value);
+      const providerName = providerObj ? providerObj.name : '';
+      // Get locations for this provider
+      const locations = providerLocations[selectedProvider.value] || [];
+      // Sidebar content area (find the main card div)
+      const sidebarCard = caqhSidebar.querySelector('div[style*="background:#f5f6f7"]');
+      if (!sidebarCard) return;
+      // Replace content with location step (modern style)
+      sidebarCard.innerHTML = `
+        <div style="font-size:1.08em;font-weight:400;color:#2f3e5c;margin-bottom:28px;line-height:1.6;">
+          <span style="color:#034f91;font-weight:700;">${providerName}</span> is affiliated with multiple locations.<br>
+          Please choose the location relevant to this patient interaction.
+        </div>
+        <div style="margin-bottom:36px;">
+          <div style="background:#fff;border-radius:12px;box-shadow:0 1px 4px 0 rgba(188,188,188,0.10);margin-bottom:0;">
+            <select id="practice-location-select" style="width:100%;padding:16px 12px;border:none;border-radius:12px;font-size:1.08em;background:#fff;color:#2f3e5c;outline:none;font-weight:400;opacity:0.5;">
+              <option value="" disabled selected>Practice Name</option>
+              ${locations.map(loc => `<option value="${loc}">${loc}</option>`).join('')}
+            </select>
+          </div>
+        </div>
+        <div style="display:flex;justify-content:center;width:100%;">
+          <button id="location-continue-btn" style="background:#034f91;color:#fff;font-weight:600;padding:12px 44px 12px 44px;border:none;border-radius:22px;font-size:1.08em;cursor:pointer;box-shadow:0 2px 6px rgba(23,102,179,0.08);margin:0 auto;display:inline-block;">Continue</button>
+        </div>
+      `;
+      // Add logic for enabling the Continue button only when a location is selected
+      const locationSelect = document.getElementById('practice-location-select');
+      const locationContinueBtn = document.getElementById('location-continue-btn');
+      locationContinueBtn.disabled = true;
+      locationSelect.addEventListener('change', function() {
+        locationContinueBtn.disabled = !locationSelect.value;
+        locationSelect.style.opacity = locationSelect.value ? 1 : 0.5;
+      });
+      // Optionally, handle what happens when the user clicks the second Continue (e.g., autofill address, close sidebar)
+      locationContinueBtn.onclick = function() {
+        // Autofill address info for this provider/location
+        const providerKey = selectedProvider.value;
+        const locationKey = locationSelect.value;
+        // Set Practice Location field
+        const practiceLocationInput = document.getElementById('practice_location');
+        if (practiceLocationInput) {
+          practiceLocationInput.value = locationKey;
+        }
+        const address = providerAddresses[providerKey] && providerAddresses[providerKey][locationKey];
+        if (address) {
+          document.getElementById('street').value = address.street;
+          document.getElementById('room').value = address.room;
+          document.getElementById('city').value = address.city;
+          document.getElementById('state').value = address.state;
+          document.getElementById('zip').value = address.zip;
+          document.getElementById('county').value = address.county;
+        }
+        // Show success message in sidebar
+        showSuccessStep();
+      };
+    }
+    function showSuccessStep() {
+      const sidebarCard = caqhSidebar.querySelector('div[style*="background:#f5f6f7"]');
+      if (!sidebarCard) return;
+      sidebarCard.innerHTML = `
+        <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:320px;">
+          <svg width="96" height="96" viewBox="0 0 96 96" fill="none" xmlns="http://www.w3.org/2000/svg" style="margin-bottom:32px;"><circle cx="48" cy="48" r="44" stroke="#23548C" stroke-width="8" fill="none"/><path d="M32 52l14 14 18-26" stroke="#23548C" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
+          <div style="font-size:1.2em;color:#2f3e5c;margin-bottom:32px;font-weight:500;">Autofill successful.</div>
+          <button id="autofill-success-close" style="background:#23548C;color:#fff;font-weight:600;padding:12px 44px 12px 44px;border:none;border-radius:22px;font-size:1.08em;cursor:pointer;box-shadow:0 2px 6px rgba(23,102,179,0.08);margin:0 auto;display:inline-block;">Close</button>
+        </div>
+      `;
+      document.getElementById('autofill-success-close').onclick = caqhClose.onclick;
+    }
+    // Show new address confirmation in sidebar after Save and Continue button click
+    const saveContinueBtn = document.querySelector('.form-actions button[type="submit"]');
+    if (saveContinueBtn) {
+      saveContinueBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        // Check required fields
+        const street = document.getElementById('street').value.trim();
+        const city = document.getElementById('city').value.trim();
+        const state = document.getElementById('state').value.trim();
+        const zip = document.getElementById('zip').value.trim();
+        const county = document.getElementById('county').value.trim();
+        if (!street || !city || !state || !zip || !county) {
+          // Optionally, show a message or let browser validation handle
+          return;
+        }
+        // Get provider name (from form or sidebar, fallback to blank)
+        let providerName = '';
+        if (document.getElementById('first_name') && document.getElementById('last_name')) {
+          providerName = document.getElementById('first_name').value + ' ' + document.getElementById('last_name').value;
+        }
+        // Get address values
+        const room = document.getElementById('room').value;
+        // Get practice location name
+        const practiceLocation = document.getElementById('practice_location').value.trim();
+        // Compose address lines
+        let addressLine = street;
+        if (room) addressLine += ', ' + room;
+        let addressCityLine = city + ', ' + state + ' ' + zip;
+        // Open sidebar if not open
+        caqhOverlay.style.display = 'block';
+        document.body.classList.add('caqh-sidebar-open');
+        // Show confirmation step in sidebar
+        showNewAddressStep(providerName, addressLine, addressCityLine, practiceLocation);
+      });
+    }
+    function showNewAddressStep(providerName, addressLine, addressCityLine, practiceLocation) {
+      const sidebarCard = caqhSidebar.querySelector('div[style*="background:#f5f6f7"]');
+      if (!sidebarCard) return;
+      sidebarCard.innerHTML = `
+        <div style="font-size:1.08em;font-weight:400;color:#2f3e5c;margin-bottom:22px;line-height:1.6;">
+          It looks like this is a new address for <span style="font-weight:600;color:#23548C;">${providerName}</span>.<br>
+          Would you like to add this location to her provider profile at CAQH?
+        </div>
+        <div style="margin-bottom:28px;">
+          <div style="font-weight:600;font-size:1.08em;color:#23548C;margin-bottom:4px;">${practiceLocation || 'Practice Location'}</div>
+          <div style="font-size:1.08em;color:#2f3e5c;margin-bottom:2px;">${addressLine}</div>
+          <div style="font-size:1.08em;color:#2f3e5c;">${addressCityLine}</div>
+          <a href="#" style="font-size:1.08em;color:#23548C;text-decoration:underline;float:right;margin-top:8px;">Edit Address</a>
+        </div>
+        <div style="font-size:1.08em;color:#2f3e5c;margin-bottom:36px;line-height:1.6;">Updating the address helps keep practice information accurate and supports smoother attestation within common workflows.</div>
+        <div style="display:flex;gap:32px;justify-content:center;width:100%;margin-top:32px;">
+          <button id="address-skip-btn" style="background:#fff;color:#23548C;font-weight:500;padding:12px 44px 12px 44px;border:2px solid #23548C;border-radius:18px;font-size:1.08em;cursor:pointer;">Skip</button>
+          <button id="address-update-btn" style="background:#23548C;color:#fff;font-weight:600;padding:12px 44px 12px 44px;border:none;border-radius:18px;font-size:1.08em;cursor:pointer;">Update</button>
+        </div>
+      `;
+      document.getElementById('address-skip-btn').onclick = caqhClose.onclick;
+      document.getElementById('address-update-btn').onclick = function() {
+        showFinalCAQHSuccess();
+      };
+    }
+    function showFinalCAQHSuccess() {
+      const sidebarCard = caqhSidebar.querySelector('div[style*="background:#f5f6f7"]');
+      if (!sidebarCard) return;
+      sidebarCard.innerHTML = `
+        <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:320px;">
+          <svg width="96" height="96" viewBox="0 0 96 96" fill="none" xmlns="http://www.w3.org/2000/svg" style="margin-bottom:32px;"><circle cx="48" cy="48" r="44" stroke="#23548C" stroke-width="8" fill="none"/><path d="M32 52l14 14 18-26" stroke="#23548C" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
+          <div style="font-size:1.15em;color:#222;margin-bottom:40px;font-weight:400;">Successfully updated with CAQH.</div>
+          <div style="display:flex;gap:24px;justify-content:center;width:100%;">
+            <a href="macro.html" style="background:#23548C;color:#fff;font-weight:600;padding:12px 36px 12px 36px;border:none;border-radius:14px;font-size:1.08em;cursor:pointer;text-decoration:none;display:inline-block;text-align:center;">View in CAQH</a>
+            <button id="final-caqh-close" style="background:#23548C;color:#fff;font-weight:600;padding:12px 36px 12px 36px;border:none;border-radius:14px;font-size:1.08em;cursor:pointer;">Close</button>
+          </div>
+        </div>
+      `;
+      document.getElementById('final-caqh-close').onclick = caqhClose.onclick;
+    }
+    window.addEventListener('DOMContentLoaded', function() {
+      document.body.classList.add('caqh-sidebar-open');
+      const caqhOverlay = document.getElementById('caqh-sidebar-overlay');
+      if (caqhOverlay) caqhOverlay.style.display = 'block';
+    });
+  </script>
+</body>
+</html>
