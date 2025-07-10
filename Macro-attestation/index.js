@@ -3,6 +3,7 @@ const updates = [
   {
     category: 'Practice Location',
     newValue: 'Harmony Health Clinic<br>999 Mission Bay Blvd North<br>Pittsburgh, PA 15213',
+    oldValue: 'Harmony Health Clinic<br>789 Mission Bay Blvd North<br>Pittsburgh, PA 15213',
     date: '2025-07-20T09:15',
     source: 'Pennsylvania DHS',
     actions: '',
@@ -10,6 +11,7 @@ const updates = [
   {
     category: 'Professional ID',
     newValue: 'State: PA<br>Num: 123-456<br>Exp: 6/17/2027',
+    oldValue: 'State: PA<br>Num: 123-456<br>Exp: 6/17/2025',
     date: '2025-06-17T14:34',
     source: 'PA State Board',
     actions: '',
@@ -17,13 +19,15 @@ const updates = [
   {
     category: 'Professional Liability Insurance',
     newValue: 'Num: 02398473<br>Exp: 6/1/26',
+    oldValue: 'Num: 20324812<br>Exp: 6/1/25',
     date: '2025-06-01T12:00',
     source: 'PA State Board',
     actions: '',
   },
   {
     category: 'Professional Liability Insurance',
-    newValue: 'Policy Number: 98765432<br>Expiration Date: 5/21/27',
+    newValue: 'Policy Number: 98765432<br>Expiration Date: 5/21/26',
+    oldValue: 'Policy Number: 19813428<br>Expiration Date: 5/21/25',
     date: '2025-05-21T14:30',
     source: 'PA Medical Board',
     actions: '',
@@ -31,6 +35,7 @@ const updates = [
   {
     category: 'Professional ID',
     newValue: 'Num: 345432321<br>Exp: 4/13/28',
+    oldValue: 'Num: 345432321<br>Exp: 4/13/25',
     date: '2025-04-13T09:25',
     source: 'Diversion Control Division',
     actions: '',
@@ -93,6 +98,16 @@ function formatDateShort(dateStr) {
   return `${mm}/${dd}/${yy}`;
 }
 
+// Helper to get only the label text from a sidebar tab (ignoring icons and badges)
+function getTabLabel(tab) {
+  for (const node of tab.childNodes) {
+    if (node.nodeType === Node.TEXT_NODE) {
+      return node.textContent.trim();
+    }
+  }
+  return tab.textContent.trim();
+}
+
 function updateSidebarBadges() {
   // Count updates by category
   const counts = {};
@@ -101,30 +116,22 @@ function updateSidebarBadges() {
   });
   // Total updates
   const total = updates.length;
-  // Overview and Disclosure
   document.querySelectorAll('.sidebar-tab').forEach(tab => {
-    const text = tab.textContent.trim();
     const badge = tab.querySelector('.badge');
     if (!badge) return;
-    if (text === 'Review Updates' || text === 'Disclosure') {
-      badge.textContent = total > 0 ? total : '';
+    const cat = tab.getAttribute('data-category');
+    if (cat === 'ALL') {
+      badge.textContent = total > 0 ? total : '0';
+      badge.style.display = total > 0 ? '' : 'none';
+    } else if (cat && cat in counts) {
+      badge.textContent = counts[cat] > 0 ? counts[cat] : '0';
+      badge.style.display = counts[cat] > 0 ? '' : 'none';
+    } else if (cat === 'Disclosure') {
+      badge.textContent = total > 0 ? total : '0'; // Or customize if Disclosure should count something else
       badge.style.display = total > 0 ? '' : 'none';
     } else {
-      // Match by tab text to category
-      let cat = text;
-      if (cat === 'Professional IDs') cat = 'Professional ID';
-      if (cat === 'Practice Locations') cat = 'Practice Location';
-      if (cat === 'Professional Liability Insurance') cat = 'Professional Liability Insurance';
-      if (cat === 'Personal Information') cat = 'Personal Information';
-      if (cat === 'Education & Professional Training') cat = 'Education & Professional Training';
-      if (cat === 'Specialties') cat = 'Specialties';
-      if (cat === 'Hospital Affiliations') cat = 'Hospital Affiliations';
-      if (cat === 'Credentialing Contacts') cat = 'Credentialing Contacts';
-      if (cat === 'Employment Information') cat = 'Employment Information';
-      if (cat === 'Professional Resources') cat = 'Professional Resources';
-      const count = counts[cat] || 0;
-      badge.textContent = count > 0 ? count : '';
-      badge.style.display = count > 0 ? '' : 'none';
+      badge.textContent = '0';
+      badge.style.display = 'none';
     }
   });
 }
@@ -208,7 +215,6 @@ function renderTable() {
   });
   attachCheckboxListeners();
   updateApproveAllBtn();
-  updateSidebarBadges();
 }
 
 function attachCheckboxListeners() {
@@ -306,11 +312,33 @@ function approveUpdate(index, newValue) {
   updateSidebarBadges();
 }
 
+// Add this function to update the filter button text based on active filters
+function updateFilterButtonText() {
+  const filterBtn = document.getElementById('filter-btn');
+  let active = [];
+  if (filterCategory.length > 0) active.push('Category');
+  if (filterSource.length > 0) active.push('Source');
+  if (filterDate) {
+    if (filterDate === '24h') active.push('Date: 24h');
+    else if (filterDate === 'week') active.push('Date: Week');
+    else if (filterDate === 'month') active.push('Date: Month');
+    else if (filterDate === 'custom' && filterDateRange && (filterDateRange.from || filterDateRange.to)) {
+      active.push('Date: Custom');
+    }
+  }
+  if (active.length > 0) {
+    filterBtn.textContent = `Filters: ${active.join(', ')}`;
+  } else {
+    filterBtn.textContent = 'Filter';
+  }
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   renderTable();
   renderFilterOptions();
   updateSortIcons();
-  updateSidebarBadges();
+  updateSidebarBadges(); // Only call once on page load
+  updateFilterButtonText(); // Initial call
 
   // Sorting
   document.querySelectorAll('.updates-table th.sortable').forEach(th => {
@@ -381,11 +409,25 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }
     renderTable();
+    updateFilterButtonText();
   });
   // Date filter
   document.querySelectorAll('.filter-date-btn').forEach(btn => {
     btn.addEventListener('click', function() {
+      const wasSelected = this.classList.contains('selected');
       document.querySelectorAll('.filter-date-btn').forEach(b => b.classList.remove('selected'));
+      if (wasSelected) {
+        // Unselecting: reset all filters
+        filterCategory = [];
+        filterSource = [];
+        filterDate = null;
+        filterDateRange = null;
+        document.getElementById('filter-date-custom').style.display = 'none';
+        renderTable();
+        renderFilterOptions();
+        updateFilterButtonText();
+        return;
+      }
       this.classList.add('selected');
       filterDate = this.getAttribute('data-range');
       if (filterDate === 'custom') {
@@ -395,22 +437,27 @@ document.addEventListener('DOMContentLoaded', () => {
         filterDateRange = null;
       }
       renderTable();
+      updateFilterButtonText();
     });
   });
   document.getElementById('filter-date-from').addEventListener('change', function() {
     if (!filterDateRange) filterDateRange = {};
     filterDateRange.from = this.value;
     renderTable();
+    updateFilterButtonText();
   });
   document.getElementById('filter-date-to').addEventListener('change', function() {
     if (!filterDateRange) filterDateRange = {};
     filterDateRange.to = this.value;
     renderTable();
+    updateFilterButtonText();
   });
   // Apply/Clear filter
   document.getElementById('apply-filter-btn').addEventListener('click', () => {
     filterPopup.classList.remove('active');
     renderTable();
+    updateFilterButtonText();
+    updateSidebarBadges(); // Defensive: ensure badges update after filter apply
   });
   document.getElementById('clear-filter-btn').addEventListener('click', () => {
     filterCategory = [];
@@ -421,6 +468,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('filter-date-custom').style.display = 'none';
     renderTable();
     renderFilterOptions();
+    updateFilterButtonText();
   });
 
   // Approve all click (main list)
