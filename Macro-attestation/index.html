@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CAQH Provider Data Portal</title>
+  <link href="https://fonts.googleapis.com/css?family=Lato:400,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <link rel="preload" href="files/Volte.otf" as="font" type="font/otf" crossorigin>
+  <style>
+    @font-face {
+      font-family: 'Volte';
+      src: url('files/Volte.otf') format('opentype');
+      font-weight: normal;
+      font-style: normal;
+      font-display: swap;
+    }
+  </style>
+</head>
+<body>
+  <header class="top-banner">
+    <img src="files/caqh-logo.png" alt="CAQH Logo" class="logo">
+    <div class="vertical-divider"></div>
+    <div class="portal-title" style="font-family: 'Volte', sans-serif;">PROVIDER DATA PORTAL</div>
+    <div class="top-banner-right">
+      <div class="user-info">
+        <span class="user-name">Sophia Garcia</span>
+        <span class="user-id">CAQH ID: 14689159</span>
+      </div>
+      <div class="header-icons">
+        <img src="files/notifications-icon.png" class="icon" alt="Notifications">
+        <img src="files/help-icon.png" class="icon" alt="Help">
+        <img src="files/settings-icon.png" class="icon" alt="Settings">
+      </div>
+    </div>
+  </header>
+  <nav class="main-nav">
+    <button class="nav-tab">Home</button>
+    <button class="nav-tab active"><img src="files/white-x-icon.png" class="icon nav-icon" alt="Profile Data"> Profile Data</button>
+    <button class="nav-tab"><img src="files/white-x-icon.png" class="icon nav-icon" alt="Documents"> Documents</button>
+    <button class="nav-tab">Authorize</button>
+  </nav>
+  <div class="container main-content-wrapper">
+    <div class="main-content-inner">
+      <aside class="sidebar">
+        <div class="sidebar-section">
+          <div class="sidebar-overview">OVERVIEW</div>
+          <button class="sidebar-tab active">
+            <img src="files/review-updates-icon.png" class="icon" alt="Review Updates">
+            Review Updates
+            <span class="badge">5</span>
+          </button>
+        </div>
+        <div class="sidebar-section">
+          <div class="sidebar-sections-title">SECTIONS</div>
+          <button class="sidebar-tab">
+            <img src="files/personal-information-icon.png" class="icon" alt="Personal Information">
+            Personal Information
+          </button>
+          <button class="sidebar-tab">
+            <img src="files/professional-ids-icon.png" class="icon" alt="Professional IDs">
+            Professional IDs
+            <span class="badge">2</span>
+          </button>
+          <button class="sidebar-tab">
+            <img src="files/education-professional-training-icon.png" class="icon" alt="Education & Professional Training">
+            Education & Professional Training
+          </button>
+          <button class="sidebar-tab">
+            <img src="files/specialties-icon.png" class="icon" alt="Specialties">
+            Specialties
+          </button>
+          <button class="sidebar-tab">
+            <img src="files/practice-locations-icon.png" class="icon" alt="Practice Locations">
+            Practice Locations
+            <span class="badge">1</span>
+          </button>
+          <button class="sidebar-tab">
+            <img src="files/hospital-affiliations-icon.png" class="icon" alt="Hospital Affiliations">
+            Hospital Affiliations
+          </button>
+          <button class="sidebar-tab">
+            <img src="files/credentialing-contacts-icon.png" class="icon" alt="Credentialing Contacts">
+            Credentialing Contacts
+          </button>
+          <button class="sidebar-tab">
+            <img src="files/professional-liability-insurance-icon.png" class="icon" alt="Professional Liability Insurance">
+            Professional Liability Insurance
+            <span class="badge">2</span>
+          </button>
+          <button class="sidebar-tab">
+            <img src="files/employment-information-icon.png" class="icon" alt="Employment Information">
+            Employment Information
+          </button>
+          <button class="sidebar-tab">
+            <img src="files/professional-resources-icon.png" class="icon" alt="Professional Resources">
+            Professional Resources
+          </button>
+          <button class="sidebar-tab">
+            <img src="files/disclosure-icon.png" class="icon" alt="Disclosure">
+            Disclosure
+            <span class="badge">5</span>
+          </button>
+        </div>
+      </aside>
+      <main class="main-content">
+        <section class="review-updates-section">
+          <h1>Review Updates</h1>
+          <p class="subtext"><b>These updates were made through external systems.</b> Please review and either approve or review each change.</p>
+          <div class="table-controls">
+            <button class="filter-btn" id="filter-btn">Filter</button>
+            <div class="filter-popup" id="filter-popup">
+              <div class="filter-section">
+                <strong>Category</strong>
+                <div class="filter-options" id="filter-category-options"></div>
+              </div>
+              <div class="filter-section">
+                <strong>Date</strong>
+                <div class="filter-options" id="filter-date-options">
+                  <button class="filter-date-btn" data-range="24h">Past 24 hours</button>
+                  <button class="filter-date-btn" data-range="week">Past week</button>
+                  <button class="filter-date-btn" data-range="month">Past month</button>
+                  <button class="filter-date-btn" data-range="custom">Custom</button>
+                  <div class="filter-date-custom" id="filter-date-custom" style="display:none;">
+                    <input type="date" id="filter-date-from"> to <input type="date" id="filter-date-to">
+                  </div>
+                </div>
+              </div>
+              <div class="filter-section">
+                <strong>Source</strong>
+                <div class="filter-options" id="filter-source-options"></div>
+              </div>
+              <button class="filter-btn" id="apply-filter-btn" style="margin-top:10px;">Apply</button>
+              <button class="filter-btn" id="clear-filter-btn" style="margin-top:10px;">Clear</button>
+            </div>
+            <input type="text" class="search-input" placeholder="Search">
+          </div>
+          <div id="approve-all-btn-container"></div>
+          <div class="updates-table-wrapper">
+            <table class="updates-table">
+              <thead>
+                <tr>
+                  <th><input type="checkbox" id="select-all"></th>
+                  <th class="sortable category-col" data-sort="category">Category <img src="files/sort-icon.png" class="sort-icon" id="category-sort-icon"></th>
+                  <th>New Value</th>
+                  <th class="sortable" data-sort="date">Date <img src="files/sort-icon.png" class="sort-icon" id="date-sort-icon"></th>
+                  <th class="sortable" data-sort="source">Source <img src="files/sort-icon.png" class="sort-icon" id="source-sort-icon"></th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="updates-tbody">
+                <!-- Rows will be rendered by JS -->
+              </tbody>
+            </table>
+          </div>
+        </section>
+      </main>
+    </div>
+  </div>
+  <div id="review-modal" class="modal" style="display:none;">
+    <div class="modal-backdrop"></div>
+    <div class="modal-content">
+      <button class="modal-close" id="modal-close-btn">&times;</button>
+      <h2 class="modal-title">External Update - Pending Your Review</h2>
+      <div class="modal-field-row"><b>Field:</b> <span id="modal-field"></span></div>
+      <div class="modal-values-row">
+        <div class="modal-value-col">
+          <div class="modal-label">New Value</div>
+          <textarea id="modal-new-value" class="modal-value-box"></textarea>
+        </div>
+        <div class="modal-value-col">
+          <div class="modal-label">Old Value</div>
+          <div class="modal-old-value-box" id="modal-old-value"></div>
+          <button class="modal-revert-btn" id="modal-revert-btn">Revert to this value</button>
+        </div>
+      </div>
+      <div class="modal-source-row">
+        <b>Source:</b> <span id="modal-source"></span>
+      </div>
+      <a href="#" id="modal-link" class="modal-link">Go to Practice Location Page</a>
+      <div class="modal-actions">
+        <button class="action-btn" id="modal-save-btn">Save</button>
+        <button class="action-btn" id="modal-cancel-btn">Cancel</button>
+      </div>
+    </div>
+  </div>
+  <script src="index.js"></script>
+</body>
+</html>
