@@ -1,0 +1,238 @@
+body {
+    margin: 0;
+    padding: 0;
+    width: 400px;
+    height: 700px;
+    font-family: 'Lato', sans-serif;
+    background: #EAF4FB;
+    color: #2F3E5B;
+    overflow: hidden;
+}
+
+.popup-container {
+    width: 400px;
+    height: 700px;
+    box-sizing: border-box;
+    background: #EAF4FB;
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    padding: 0;
+    padding-top:20px;
+}
+
+.popup-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 0 32px 0 32px;
+    position: relative;
+    margin: 0;
+}
+.caqh-logo {
+    width: 80px;
+    height: auto;
+    margin-top: 2px;
+}
+.close-btn {
+    background: none;
+    border: none;
+    font-size: 2rem;
+    color: #B0B7C3;
+    cursor: pointer;
+    margin-left: 16px;
+    margin-top: 2px;
+    line-height: 1;
+    padding: 0;
+    transition: color 0.2s;
+}
+.close-btn:hover {
+    color: #7A869A;
+}
+
+.popup-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0 32px;
+    box-sizing: border-box;
+}
+
+.popup-title {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #0072CE;
+    margin: 24px 0 8px 0;
+    text-align: left;
+    width: 100%;
+}
+
+.popup-desc {
+    color: #0072CE;
+    font-size: 1rem;
+    margin-bottom: 32px;
+    text-align: left;
+    width: 100%;
+}
+
+.popup-form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+.popup-form label {
+    font-size: 1rem;
+    color: #2F3E5B;
+    margin-bottom: 2px;
+    margin-top: 12px;
+}
+.popup-form input[type="text"],
+.popup-form input[type="password"] {
+    width: 100%;
+    padding: 8px 0 6px 0;
+    font-size: 1rem;
+    border: none;
+    border-bottom: 1.5px solid #DADADA;
+    border-radius: 0;
+    background: transparent;
+    color: #2F3E5B;
+    margin-bottom: 2px;
+    font-family: 'Lato', sans-serif;
+    box-sizing: border-box;
+    outline: none;
+    transition: border-color 0.2s;
+}
+.popup-form input[type="text"]::placeholder,
+.popup-form input[type="password"]::placeholder {
+    color: #B0B7C3;
+    opacity: 1;
+    font-size: 1rem;
+    font-family: 'Lato', sans-serif;
+}
+.popup-form input[type="text"]:focus,
+.popup-form input[type="password"]:focus {
+    border-bottom: 1.5px solid #0072CE;
+}
+
+.popup-link {
+    color: #0072CE;
+    font-size: 0.95rem;
+    text-decoration: none;
+    margin-bottom: 8px;
+    margin-top: 2px;
+    display: inline-block;
+}
+.popup-link:hover {
+    text-decoration: underline;
+}
+
+.checkbox-row {
+    display: flex;
+    align-items: center;
+    margin: 12px 0 18px 0;
+}
+.checkbox-row input[type="checkbox"] {
+    accent-color: #4E5A72;
+    width: 18px;
+    height: 18px;
+    margin-right: 8px;
+}
+.checkbox-row label {
+    color: #4E5A72;
+    font-size: 0.85rem;
+    margin: 0;
+    cursor: pointer;
+}
+
+#autofill-btn,
+.continue-btn {
+    background: #0072CE;
+    color: #fff;
+    font-size: 1.1rem;
+    font-weight: 700;
+    border: none;
+    border-radius: 12px;
+    padding: 16px 0;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+#autofill-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+#autofill-btn:hover:not(:disabled) {
+    background: #005fa3;
+}
+
+.bottom-text {
+    color: #4E5A72;
+    font-size: 0.85rem;
+    text-align: center;
+    margin-top: 12px;
+    margin-bottom: 0;
+    width: 100%;
+}
+.bottom-text .register-link {
+    color: #0072CE;
+    text-decoration: underline;
+    font-weight: 500;
+}
+
+.location-card {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border: 1px solid #B0B7C3;
+    border-radius: 12px;
+    padding: 14px 12px;
+    margin-bottom: 10px;
+    background: #fff;
+    transition: height 0.3s;
+}
+.location-card input[type="checkbox"] {
+    align-self: center;
+    margin-top: 0;
+}
+.location-card.selected {
+    border: 1.5px solid #0072CE;
+    box-shadow: 0px 4px 4px -3px rgba(0, 114, 206, 0.2);
+}
+
+.search-bar-container {
+    width: 100%;
+    margin-bottom: 8px;
+    position: relative;
+}
+.search-bar-icon {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 18px;
+    height: 18px;
+    pointer-events: none;
+    opacity: 0.7;
+}
+.search-bar-input {
+    width: 100%;
+    padding: 8px 8px 8px 36px;
+    border-radius: 8px;
+    border: 1px solid #B0B7C3;
+    font-size: 1rem;
+    box-sizing: border-box;
+    font-family: 'Lato', sans-serif;
+    outline: none;
+    transition: border-color 0.2s;
+}
+.search-bar-input:focus {
+    border-color: #0072CE;
+}
+
+@media (max-width: 400px), (max-height: 700px) {
+    .popup-container, body {
+        width: 100vw;
+        height: 100vh;
+    }
+} 
