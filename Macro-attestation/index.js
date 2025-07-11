@@ -301,6 +301,12 @@ function renderTable() {
   filtered.forEach((row, i) => {
     const sourceLink = getSourceLink(row.source);
     const tr = document.createElement('tr');
+    let statusHtml = '';
+    if (approvedRows[i]) {
+      statusHtml = getStatusCell('Approved');
+    } else if (rejectedRows[i]) {
+      statusHtml = getStatusCell('Rejected');
+    }
     tr.innerHTML = `
       <td>
         <input type="checkbox" class="row-checkbox" id="row-checkbox-${i}" aria-label="Select update for ${row.category}, ${formatDateShort(row.date)} from ${row.source}">
@@ -310,8 +316,7 @@ function renderTable() {
       <td>${formatDateShort(row.date)}</td>
       <td><a href="${sourceLink}" target="_blank" rel="noopener noreferrer" style="color:inherit;text-decoration:none;">${row.source} <img src="files/external-link-icon.png" alt="external link" style="width:14px;height:14px;margin-left:4px;vertical-align:middle;opacity:0.7;"></a></td>
       <td>
-        <button class="action-btn">Approve</button>
-        <button class="action-btn">Review</button>
+        ${statusHtml || `<button class="action-btn">Approve</button> <button class="action-btn">Review</button>`}
       </td>
     `;
     tbody.appendChild(tr);
@@ -439,6 +444,14 @@ function showModal(index) {
     historyDiv.innerHTML = '<div style="color:#8a97b1;font-size:13px;">No update history available.</div>';
   }
   document.getElementById('review-modal').style.display = 'flex';
+  // Accessibility: trap focus in modal
+  trapModalFocus();
+  // Set initial focus to first focusable element in modal
+  setTimeout(() => {
+    const modal = document.getElementById('review-modal');
+    const focusable = modal.querySelectorAll('button, [href], input, textarea, select, [tabindex]:not([tabindex="-1"])');
+    if (focusable.length) focusable[0].focus();
+  }, 0);
   // Remove old modal button listeners if any
   const approveBtn = document.getElementById('modal-approve-btn');
   const revertBtn = document.getElementById('modal-revert-btn-bottom');
@@ -464,8 +477,38 @@ function showModal(index) {
   });
 }
 
+// Trap focus in modal
+function trapModalFocus() {
+  const modal = document.getElementById('review-modal');
+  if (!modal) return;
+  const focusable = modal.querySelectorAll('button, [href], input, textarea, select, [tabindex]:not([tabindex="-1"])');
+  const first = focusable[0];
+  const last = focusable[focusable.length - 1];
+  function handleTab(e) {
+    if (e.key !== 'Tab') return;
+    if (e.shiftKey) {
+      if (document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      }
+    } else {
+      if (document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
+    }
+  }
+  modal.addEventListener('keydown', handleTab);
+  // Remove listener on close
+  modal._removeTrap = () => modal.removeEventListener('keydown', handleTab);
+}
+
 function hideModal() {
   document.getElementById('review-modal').style.display = 'none';
+  // Remove focus trap
+  const modal = document.getElementById('review-modal');
+  if (modal && modal._removeTrap) modal._removeTrap();
+  // Optionally, return focus to the last active element if tracked
 }
 
 function formatDateModal(dateStr) {
@@ -482,7 +525,13 @@ function formatDateModal(dateStr) {
 }
 
 function approveUpdate(index, newValue) {
-  updates.splice(index, 1);
+  if (newValue) {
+    rejectedRows[index] = true;
+    delete approvedRows[index];
+  } else {
+    approvedRows[index] = true;
+    delete rejectedRows[index];
+  }
   renderTable();
   hideModal();
   updateSidebarBadges();
@@ -507,6 +556,90 @@ function updateFilterButtonText() {
   } else {
     filterBtn.textContent = 'Filter';
   }
+}
+
+function getStatusCell(status) {
+  const now = new Date();
+  const dateStr = now.toLocaleDateString();
+  if (status === 'Approved') {
+    return `<span class="green-check">&#10003;</span> <span class="approved-status">Approved on ${dateStr}</span>`;
+  } else if (status === 'Reverted') {
+    return `<span class="reverted-x">&#10005;</span> <span class="reverted-status">Reverted on ${dateStr}</span>`;
+  }
+  return '';
+}
+let approvedRows = {};
+let rejectedRows = {};
+
+// 1. Sidebar/nav/header popups
+function addNotPrototypedHandlers() {
+  // Sidebar tabs except the first (Review Updates)
+  document.querySelectorAll('.sidebar-tab').forEach((tab, i) => {
+    if (i === 0) return; // Skip Review Updates
+    tab.addEventListener('click', function(e) {
+      e.preventDefault();
+      alert('This page has not been prototyped, but would mirror the existing Provider Data Portal site.');
+    });
+  });
+  // Nav bar tabs except Home/Profile Data
+  document.querySelectorAll('.main-nav .nav-tab').forEach((tab, i) => {
+    if (i === 0 || tab.classList.contains('active')) return; // Skip Home/Profile Data
+    tab.addEventListener('click', function(e) {
+      e.preventDefault();
+      alert('This page has not been prototyped, but would mirror the existing Provider Data Portal site.');
+    });
+  });
+  // Header icons (profile/settings/help)
+  document.querySelectorAll('.header-icons .icon').forEach(icon => {
+    icon.addEventListener('click', function(e) {
+      e.preventDefault();
+      alert('This page has not been prototyped, but would mirror the existing Provider Data Portal site.');
+    });
+  });
+}
+// 2. Modal close on outside click or Esc
+function addModalAccessibility() {
+  const modal = document.getElementById('review-modal');
+  if (!modal) return;
+  // Click outside modal-content closes
+  modal.addEventListener('mousedown', function(e) {
+    if (e.target === modal) {
+      document.getElementById('modal-cancel-btn').click();
+    }
+  });
+  // Esc key closes
+  document.addEventListener('keydown', function(e) {
+    if (modal.style.display !== 'none' && (e.key === 'Escape' || e.key === 'Esc')) {
+      document.getElementById('modal-cancel-btn').click();
+    }
+  });
+}
+// 3. Approve/revert: show status instead of buttons
+function getStatusCell(status) {
+  const now = new Date();
+  const dateStr = now.toLocaleDateString();
+  return `<span class="green-check">&#10003;</span> <em>${status} on ${dateStr}</em>`;
+}
+
+// 4. Attestation banner: add Provider status
+function addProviderStatus() {
+  const lastAttested = document.getElementById('attestation-last-date');
+  if (lastAttested && !document.getElementById('provider-status-line')) {
+    const statusLine = document.createElement('div');
+    statusLine.id = 'provider-status-line';
+    statusLine.innerHTML = 'Provider status: <span class="status-active">Active</span>';
+    lastAttested.parentNode.appendChild(statusLine);
+  }
+}
+// 5. Update history modal: add EDT to times
+function addEDTtoUpdateHistory() {
+  const modal = document.getElementById('review-modal');
+  if (!modal) return;
+  const historyDiv = document.getElementById('modal-update-history');
+  if (!historyDiv) return;
+  historyDiv.querySelectorAll('div').forEach(div => {
+    div.innerHTML = div.innerHTML.replace(/(\d{1,2}:\d{2}(am|pm|AM|PM))/g, '$1 EDT');
+  });
 }
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -696,6 +829,10 @@ document.addEventListener('DOMContentLoaded', () => {
   if (bannerBtn) {
     bannerBtn.onclick = () => { window.location.href = 'attest.html'; };
   }
+  addNotPrototypedHandlers();
+  addModalAccessibility();
+  addProviderStatus();
+  addEDTtoUpdateHistory();
 });
 
 function updateSortIcons() {

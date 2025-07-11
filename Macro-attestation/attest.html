@@ -36,8 +36,8 @@
   </header>
   <nav class="main-nav">
     <button class="nav-tab">Home</button>
-    <button class="nav-tab active"><img src="files/white-x-icon.png" class="icon nav-icon" alt="" role="presentation"> Profile Data</button>
-    <button class="nav-tab"><img src="files/white-x-icon.png" class="icon nav-icon" alt="" role="presentation"> Documents</button>
+    <button class="nav-tab active">Profile Data</button>
+    <button class="nav-tab">Documents</button>
     <button class="nav-tab">Authorize</button>
   </nav>
   <div class="container main-content-wrapper">
@@ -55,8 +55,9 @@
             <div style="margin-bottom:18px;">
               <label style="display:flex;align-items:center;font-size:16px;font-weight:700;color:#b23b2e;">
                 <input type="checkbox" id="attest-checkbox" style="width:18px;height:18px;margin-right:10px;accent-color:#b23b2e;">
-                I have reviewed my <a href="#" id="directory-link" style="color:#205CB6;text-decoration:underline;">Directory Data</a>.
+                I have reviewed my <span style="margin-right:2px;"></span><a href="#" id="directory-link" style="color:#205CB6;text-decoration:underline;">Directory Data</a>.
               </label>
+              <div id="attest-error" style="color:#d32f2f;font-size:14px;margin-top:4px;display:none;"></div>
             </div>
             <div style="background:#f8f9fb;border:1.5px solid #e3e7ef;border-radius:8px;padding:16px 18px;margin-bottom:18px;max-height:110px;overflow:auto;font-size:13px;color:#2F3E5B;" tabindex="0" aria-label="Attestation agreement text. Use arrow keys to scroll.">
               I understand and agree that, as part of the credentialing application process for participation, membership and/or clinical privileges (hereinafter, referred to as "Participation") at or with each healthcare organization indicated on the "List of Authorized Organizations" that accompanies this Provider Application (hereinafter, each healthcare organization on the "List of Authorized Organizations" is individually referred to as the "Entity"), and any of the Entity's affiliated entities, I am required to provide sufficient and accurate information for a proper evaluation of my current licensure, relevant training and/or experience, clinical competence, health status, character, ethics, and any other criteria used by the Entity for determining initial and ongoing eligibility for Participation. Each Entity and its representatives, employees, and agent(s) acknowledge that the information obtained relating to the application process will be held confidential to the extent permitted by law. I acknowledge that each Entity has its own criteria for acceptance, and I may be accepted or rejected by each independently. I further acknowledge and understand that my cooperation in obtaining, updating information, and my participation in the credentialing process does not guarantee acceptance or continued participation by any Entity. I authorize each Entity to consult with any person, organization, or institution that may have information bearing on my professional qualifications, credentials, clinical competence, character, and ethical qualifications. I release from liability all representatives of the Entity and its agents for their acts performed in good faith and without malice in connection with evaluating my application and credentials. I also release from liability all individuals and organizations who provide information to the Entity in good faith and without malice concerning my professional competence, ethics, character, and other qualifications for participation. I understand that any misrepresentation or omission of information may result in denial or termination of participation. I certify that the information provided is true, correct, and complete to the best of my knowledge.
@@ -112,7 +113,16 @@ const downloadStateBtn = document.getElementById('download-state-btn');
 if (downloadStateBtn) downloadStateBtn.onclick = (e) => { e.preventDefault(); alert('File downloaded'); };
 // ATTEST button click: show completion screen
 const attestBtn = document.getElementById('attest-btn');
+const attestCheckbox = document.getElementById('attest-checkbox');
+const attestError = document.getElementById('attest-error');
 if (attestBtn) attestBtn.onclick = function() {
+  if (!attestCheckbox.checked) {
+    attestError.textContent = 'You must agree that you have reviewed your Directory Data before attesting.';
+    attestError.style.display = 'block';
+    return;
+  } else {
+    attestError.style.display = 'none';
+  }
   const mainContent = document.querySelector('.main-content');
   if (mainContent) {
     mainContent.innerHTML = `
@@ -137,6 +147,21 @@ if (attestBtn) attestBtn.onclick = function() {
     if (returnBtn) returnBtn.onclick = () => { window.location.href = 'index.html'; };
   }
 };
+// Add not prototyped popup for nav and header icons
+const navTabsAll = document.querySelectorAll('.nav-tab');
+navTabsAll.forEach((tab, i) => {
+  if (i === 0 || tab.classList.contains('active')) return;
+  tab.onclick = function(e) {
+    e.preventDefault();
+    alert('This page has not been prototyped, but would mirror the existing Provider Data Portal site.');
+  };
+});
+document.querySelectorAll('.header-icons .icon').forEach(icon => {
+  icon.onclick = function(e) {
+    e.preventDefault();
+    alert('This page has not been prototyped, but would mirror the existing Provider Data Portal site.');
+  };
+});
 </script>
 </body>
 </html> 
