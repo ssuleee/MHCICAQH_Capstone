@@ -105,6 +105,14 @@
       </aside>
       <main class="main-content">
         <section class="review-updates-section">
+          <div id="attestation-banner" class="attestation-banner">
+            <img src="files/time-icon.png" alt="Clock" class="attestation-banner-icon">
+            <div class="attestation-banner-content">
+              <div class="attestation-banner-title"><b>Attestation due in <span id='attestation-days'>10 days</span>.</b> Review recent updates to complete your attestation.</div>
+              <div class="attestation-banner-last"><b>Last attested:</b> <span id='attestation-last-date'>May 2, 2025</span></div>
+            </div>
+            <button id="attestation-banner-btn" class="attestation-banner-btn" style="display:none;">Attest Now</button>
+          </div>
           <h1>Review Updates</h1>
           <p class="subtext"><b>These updates were made through external systems.</b> Please review and either approve or review each change.</p>
           <div class="table-controls">
@@ -151,6 +159,12 @@
               <tbody id="updates-tbody">
                 <!-- Rows will be rendered by JS -->
               </tbody>
+              <tr id="attest-now-row" class="attest-now-container" style="display:none;">
+                <td colspan="6" style="text-align:right;">
+                  <span id="no-more-updates-msg" style="float:left;color:#8a97b1;font-size:16px;display:none;">No more updates to review.</span>
+                  <button id="attest-now-btn" class="attest-now-btn">Attest Now</button>
+                </td>
+              </tr>
             </table>
           </div>
         </section>
@@ -171,16 +185,19 @@
         <div class="modal-value-col">
           <div class="modal-label">Old Value</div>
           <div class="modal-old-value-box" id="modal-old-value"></div>
-          <button class="modal-revert-btn" id="modal-revert-btn">Revert to this value</button>
         </div>
       </div>
-      <div class="modal-source-row">
-        <b>Source:</b> <span id="modal-source"></span>
+      <div class="modal-update-history-section">
+        <div class="modal-label" style="margin-bottom:8px;">Update History</div>
+        <div id="modal-update-history"></div>
       </div>
-      <a href="#" id="modal-link" class="modal-link">Go to Practice Location Page</a>
-      <div class="modal-actions">
-        <button class="action-btn" id="modal-save-btn">Save</button>
-        <button class="action-btn" id="modal-cancel-btn">Cancel</button>
+      <div style="display:flex;align-items:flex-end;justify-content:space-between;margin-top:18px;">
+        <a href="#" id="modal-link" class="modal-link" style="margin-bottom:0;">Go to Practice Location Page</a>
+        <div class="modal-actions" style="margin-bottom:0;">
+          <button class="action-btn" id="modal-approve-btn">Approve</button>
+          <button class="action-btn" id="modal-revert-btn-bottom">Revert to Previous</button>
+          <button class="action-btn" id="modal-cancel-btn">Cancel</button>
+        </div>
       </div>
     </div>
   </div>

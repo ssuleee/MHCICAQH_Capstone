@@ -6,7 +6,23 @@ const updates = [
     oldValue: 'Harmony Health Clinic<br>789 Mission Bay Blvd North<br>Pittsburgh, PA 15213',
     date: '2025-07-20T09:15',
     source: 'Pennsylvania DHS',
-    actions: '',
+    updateHistory: [
+      {
+        date: '6/20/2025',
+        time: '9:15am',
+        text: 'You updated this address in Pennsylvania DHS while completing provider enrollment for the Children\'s Health Insurance Program (CHIP).'
+      },
+      {
+        date: '4/12/2024',
+        time: '2:20pm',
+        text: 'Your address was updated during an online revalidation with Keystone First, a Pennsylvania Medicaid MCO.'
+      },
+      {
+        date: '2/15/2022',
+        time: '1:00pm',
+        text: 'This practice location was originally created and attested directly in CAQH Provider Data Portal.'
+      }
+    ]
   },
   {
     category: 'Professional ID',
@@ -14,7 +30,28 @@ const updates = [
     oldValue: 'State: PA<br>Num: 123-456<br>Exp: 6/17/2025',
     date: '2025-06-17T14:34',
     source: 'PA State Board',
-    actions: '',
+    updateHistory: [
+      {
+        date: '6/17/2025',
+        time: '2:34pm',
+        text: 'Renewed Professional ID with PA State Board.'
+      },
+      {
+        date: '6/17/2023',
+        time: '2:30pm',
+        text: 'Previous Professional ID expired.'
+      },
+      {
+        date: '6/17/2022',
+        time: '2:00pm',
+        text: 'Professional ID renewed with PA State Board.'
+      },
+      {
+        date: '6/17/2021',
+        time: '1:00pm',
+        text: 'Professional ID created in CAQH.'
+      }
+    ]
   },
   {
     category: 'Professional Liability Insurance',
@@ -22,15 +59,28 @@ const updates = [
     oldValue: 'Num: 20324812<br>Exp: 6/1/25',
     date: '2025-06-01T12:00',
     source: 'PA State Board',
-    actions: '',
-  },
-  {
-    category: 'Professional Liability Insurance',
-    newValue: 'Policy Number: 98765432<br>Expiration Date: 5/21/26',
-    oldValue: 'Policy Number: 19813428<br>Expiration Date: 5/21/25',
-    date: '2025-05-21T14:30',
-    source: 'PA Medical Board',
-    actions: '',
+    updateHistory: [
+      {
+        date: '6/1/2025',
+        time: '12:00pm',
+        text: 'License renewal information received from the PA Medical Board.'
+      },
+      {
+        date: '5/30/2024',
+        time: '10:00am',
+        text: 'Previous license record marked as expired in state records.'
+      },
+      {
+        date: '6/1/2023',
+        time: '12:00pm',
+        text: 'Policy information manually entered and attested in CAQH Provider Data Portal.'
+      },
+      {
+        date: '6/1/2022',
+        time: '9:00am',
+        text: 'Initial license verification completed via automated check with the PA Medical Board.'
+      }
+    ]
   },
   {
     category: 'Professional ID',
@@ -38,8 +88,24 @@ const updates = [
     oldValue: 'Num: 345432321<br>Exp: 4/13/25',
     date: '2025-04-13T09:25',
     source: 'Diversion Control Division',
-    actions: '',
-  },
+    updateHistory: [
+      {
+        date: '4/13/2025',
+        time: '9:25am',
+        text: 'DEA registration successfully renewed with the U.S. Drug Enforcement Administration (DEA) – Diversion Control Division.'
+      },
+      {
+        date: '4/10/2024',
+        time: '3:00pm',
+        text: 'DEA renewal application submitted via the DEA Diversion Control Division portal.'
+      },
+      {
+        date: '4/13/2023',
+        time: '8:00am',
+        text: 'DEA registration information added and attested in CAQH Provider Data Portal.'
+      }
+    ]
+  }
 ];
 
 // Add oldValue to each update (if not present)
@@ -191,12 +257,47 @@ function renderTable() {
       return 0;
     });
   }
-  // Approve all button logic
   const approveAllBtnContainer = document.getElementById('approve-all-btn-container');
   approveAllBtnContainer.innerHTML = '';
-  // Table body
   const tbody = document.getElementById('updates-tbody');
   tbody.innerHTML = '';
+  const attestNowRow = document.getElementById('attest-now-row');
+  const bannerBtn = document.getElementById('attestation-banner-btn');
+  const bannerDesc = document.getElementById('attestation-banner-desc');
+  if (filtered.length === 0) {
+    const tr = document.createElement('tr');
+    const td = document.createElement('td');
+    td.colSpan = 6;
+    td.style.textAlign = 'center';
+    td.style.verticalAlign = 'middle';
+    td.innerHTML = `
+      <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; padding: 18px 0;">
+        <span id="no-more-updates-msg" style="color:#8a97b1;font-size:16px;">No more updates to review.</span>
+        <button id="attest-now-btn" class="attest-now-btn">Attest Now</button>
+      </div>
+    `;
+    tr.appendChild(td);
+    tbody.appendChild(tr);
+    if (attestNowRow && tbody.contains(attestNowRow)) {
+      attestNowRow.remove();
+    }
+    if (bannerBtn) bannerBtn.style.display = '';
+    if (bannerDesc) bannerDesc.style.display = 'none';
+    // Add event listener for the new button
+    setTimeout(() => {
+      const attestBtn = document.getElementById('attest-now-btn');
+      if (attestBtn) {
+        attestBtn.onclick = () => { window.location.href = 'attest.html'; };
+      }
+    }, 0);
+    return;
+  } else {
+    if (attestNowRow && tbody.contains(attestNowRow)) {
+      attestNowRow.remove();
+    }
+    if (bannerBtn) bannerBtn.style.display = 'none';
+    if (bannerDesc) bannerDesc.style.display = '';
+  }
   filtered.forEach((row, i) => {
     const sourceLink = getSourceLink(row.source);
     const tr = document.createElement('tr');
@@ -276,16 +377,89 @@ function showModal(index) {
     originalNewValue: update.newValue.replace(/<br>/g, '\n'),
     oldValue: update.oldValue.replace(/<br>/g, '\n'),
     field: update.category,
-    source: `${update.source} on ${formatDateModal(update.date)}`,
     date: update.date,
     link: getSourceLink(update.source),
   };
   document.getElementById('modal-field').textContent = modalState.field;
   document.getElementById('modal-new-value').value = modalState.originalNewValue;
   document.getElementById('modal-old-value').textContent = modalState.oldValue;
-  document.getElementById('modal-source').textContent = modalState.source;
   document.getElementById('modal-link').href = modalState.link;
+  // Render update history with hyperlinks and external link icons
+  const historyDiv = document.getElementById('modal-update-history');
+  historyDiv.innerHTML = '';
+  // To add more hyperlinks, add to this object:
+  // 'Display Name': 'https://link.url'
+  const sourceLinks = {
+    'Pennsylvania DHS': 'https://provider.enrollment.dhs.pa.gov/RequestInfo',
+    'PA State Board': 'https://www.pa.gov/agencies/dos/department-and-offices/bpoa/boards-commissions/medicine.html',
+    'PA Medical Board': 'https://www.pa.gov/agencies/dos/department-and-offices/bpoa/boards-commissions/medicine.html',
+    'Diversion Control Division': 'https://www.deadiversion.usdoj.gov/'
+    // Add more sources here as needed
+  };
+  function addExternalLinks(text) {
+    Object.entries(sourceLinks).forEach(([name, url]) => {
+      const icon = `<img src="files/external-link-icon.png" alt="external link" style="width:14px;height:14px;margin-left:4px;vertical-align:middle;opacity:0.7;display:inline;">`;
+      text = text.replace(
+        new RegExp(`(?<![\">])(${name})`, 'g'),
+        `<a href="${url}" target="_blank" rel="noopener noreferrer" style="color:#205CB6;text-decoration:underline;">$1</a>${icon}`
+      );
+    });
+    return text;
+  }
+  function formatShortYear(dateStr) {
+    // Expects MM/DD/YYYY, returns MM/DD/YY
+    const parts = dateStr.split('/');
+    if (parts.length === 3) {
+      return `${parts[0]}/${parts[1]}/${parts[2].slice(-2)}`;
+    }
+    return dateStr;
+  }
+  if (update.updateHistory && Array.isArray(update.updateHistory) && update.updateHistory.length > 0) {
+    update.updateHistory.forEach(item => {
+      const entry = document.createElement('div');
+      entry.style.border = '1.5px solid #e3e7ef';
+      entry.style.borderRadius = '10px';
+      entry.style.padding = '12px 16px';
+      entry.style.marginBottom = '10px';
+      entry.style.background = '#fff';
+      entry.style.display = 'flex';
+      entry.style.alignItems = 'center'; // Center vertically
+      entry.innerHTML = `
+        <div style="min-width:56px;text-align:center;font-weight:700;font-size:16px;color:#205CB6;line-height:1.1;margin-right:16px;">
+          <div>${formatShortYear(item.date)}</div>
+          <div style="font-size:12px;font-weight:400;color:#8a97b1;">${item.time}</div>
+        </div>
+        <div style="flex:1;font-size:13px;">${addExternalLinks(item.text)}</div>
+      `;
+      historyDiv.appendChild(entry);
+    });
+  } else {
+    historyDiv.innerHTML = '<div style="color:#8a97b1;font-size:13px;">No update history available.</div>';
+  }
   document.getElementById('review-modal').style.display = 'flex';
+  // Remove old modal button listeners if any
+  const approveBtn = document.getElementById('modal-approve-btn');
+  const revertBtn = document.getElementById('modal-revert-btn-bottom');
+  const cancelBtn = document.getElementById('modal-cancel-btn');
+  // Remove previous listeners by cloning
+  approveBtn.replaceWith(approveBtn.cloneNode(true));
+  revertBtn.replaceWith(revertBtn.cloneNode(true));
+  cancelBtn.replaceWith(cancelBtn.cloneNode(true));
+  // Re-select after cloning
+  const approveBtnNew = document.getElementById('modal-approve-btn');
+  const revertBtnNew = document.getElementById('modal-revert-btn-bottom');
+  const cancelBtnNew = document.getElementById('modal-cancel-btn');
+  approveBtnNew.addEventListener('click', function() {
+    approveUpdate(index, null);
+  });
+  revertBtnNew.addEventListener('click', function() {
+    // Remove the update from the table (simulate revert)
+    approveUpdate(index, update.oldValue);
+  });
+  cancelBtnNew.addEventListener('click', function() {
+    document.getElementById('modal-new-value').value = modalState.originalNewValue;
+    hideModal();
+  });
 }
 
 function hideModal() {
@@ -509,6 +683,17 @@ document.addEventListener('DOMContentLoaded', () => {
     renderTable();
     hideModal();
   });
+  // Add event listener to modal backdrop to close modal on click (same as Cancel)
+  document.querySelector('.modal-backdrop').addEventListener('click', function() {
+    document.getElementById('modal-new-value').value = modalState.originalNewValue;
+    hideModal();
+  });
+
+  // Make banner Attest Now button link to attest.html
+  const bannerBtn = document.getElementById('attestation-banner-btn');
+  if (bannerBtn) {
+    bannerBtn.onclick = () => { window.location.href = 'attest.html'; };
+  }
 });
 
 function updateSortIcons() {
