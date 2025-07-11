@@ -302,7 +302,9 @@ function renderTable() {
     const sourceLink = getSourceLink(row.source);
     const tr = document.createElement('tr');
     tr.innerHTML = `
-      <td><input type="checkbox" class="row-checkbox"></td>
+      <td>
+        <input type="checkbox" class="row-checkbox" id="row-checkbox-${i}" aria-label="Select update for ${row.category}, ${formatDateShort(row.date)} from ${row.source}">
+      </td>
       <td class="category-col">${row.category}</td>
       <td>${row.newValue}</td>
       <td>${formatDateShort(row.date)}</td>

@@ -55,10 +55,11 @@ body {
 .sidebar-sections-title {
   font-size: 12px;
   font-weight: 700;
-  color: #8a97b1;
-  margin-bottom: 8px;
-  padding: 0 0 0 8px;
+  color: #14386B;
   letter-spacing: 1px;
+  text-transform: uppercase;
+  background: none;
+  padding: 0 0 0 8px;
 }
 .sidebar-tab {
   display: flex;
@@ -94,9 +95,9 @@ body {
 }
 .badge {
   background: #F9DADA;
-  color: #B23B2E;
+  color: #7A1A1A;
   font-size: 13px;
-  font-weight: 700;
+  font-weight: 900;
   border-radius: 12px;
   padding: 2px 8px;
   margin-left: auto;
@@ -275,8 +276,9 @@ body {
   font-size: 14px;
 }
 .updates-table th {
-  color: #8a97b1;
-  font-weight: 700;
+  color: #14386B;
+  font-weight: 900;
+  background: #EAF4FB;
   border-bottom: 1px solid #e3e7ef;
   cursor: pointer;
   user-select: none;
@@ -786,4 +788,13 @@ body {
   border: 0;
   padding: 0;
   margin: -1px;
+}
+
+.no-more-updates-msg {
+  color: #14386B !important;
+  font-weight: 900;
+  background: #EAF4FB;
+  border-radius: 6px;
+  padding: 4px 12px;
+  font-size: 16px;
 }
