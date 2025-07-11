@@ -1,3 +1,5 @@
+// ========== MAIN ENTRY POINT FOR PROVIDER DATA PORTAL ========== //
+// Handles page initialization, event listeners, and high-level app logic.
 import { renderTable, renderFilterOptions, updateSidebarBadges, approveUpdate, updateApproveAllBtn } from './js/table.js';
 import { showModal, hideModal } from './js/modal.js';
 // Data for updates table
@@ -199,6 +201,7 @@ function updateFilterButtonText() {
 window.approvedRows = {};
 window.rejectedRows = {};
 
+// ========== EVENT LISTENERS & INITIALIZATION ========== //
 // 1. Sidebar/nav/header popups
 function addNotPrototypedHandlers() {
   // Sidebar tabs except the first (Review Updates)

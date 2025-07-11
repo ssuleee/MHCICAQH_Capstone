@@ -1,12 +1,10 @@
-// table.js
-/**
- * Table logic for Provider Data Portal
- * Handles rendering, filtering, sorting, approve/revert, and sidebar badge updates.
- * Direct refactor from index.js, no UI or functional changes.
- */
+// ========== TABLE LOGIC FOR PROVIDER DATA PORTAL ========== //
+// Handles rendering, filtering, sorting, approve/revert, and sidebar badge updates.
+// Direct refactor from index.js, no UI or functional changes.
 
 import { getSourceLink } from './utils.js';
 
+// ========== RENDER THE MAIN UPDATES TABLE ========== //
 export function renderTable() {
   const attestNowRow = document.getElementById('attest-now-row');
   const tbody = document.querySelector('table tbody'); // <-- Add this line
@@ -157,6 +155,7 @@ export function renderTable() {
   updateApproveAllBtn();
 }
 
+// ========== CHECKBOX LISTENERS FOR SELECT ALL/ROW ========== //
 export function attachCheckboxListeners() {
   const allCheckbox = document.getElementById('select-all');
   const rowCheckboxes = document.querySelectorAll('.row-checkbox');
@@ -167,6 +166,7 @@ export function attachCheckboxListeners() {
   });
 }
 
+// ========== APPROVE ALL BUTTON LOGIC ========== //
 export function updateApproveAllBtn() {
   const rowCheckboxes = document.querySelectorAll('.row-checkbox');
   const approveAllBtnContainer = document.getElementById('approve-all-btn-container');
@@ -191,6 +191,7 @@ export function updateApproveAllBtn() {
   }
 }
 
+// ========== APPROVE/REVERT LOGIC FOR INDIVIDUAL UPDATES ========== //
 export function approveUpdate(index, newValue) {
   if (newValue) {
     window.rejectedRows[index] = true;
@@ -204,6 +205,7 @@ export function approveUpdate(index, newValue) {
   updateSidebarBadges();
 }
 
+// ========== STATUS CELL RENDERING FOR APPROVED/REVERTED ========== //
 export function getStatusCell(status) {
   const now = new Date();
   const dateStr = now.toLocaleDateString();
@@ -216,6 +218,7 @@ export function getStatusCell(status) {
   return '';
 }
 
+// ========== RENDER FILTER OPTIONS FOR CATEGORY/SOURCE ========== //
 export function renderFilterOptions() {
   const catSet = new Set(window.updates.map(u => u.category));
   const catOptions = Array.from(catSet);
@@ -227,6 +230,7 @@ export function renderFilterOptions() {
   srcDiv.innerHTML = srcOptions.map(src => `<label><input type="checkbox" value="${src}" class="filter-source-cb" ${window.filterSource.includes(src) ? 'checked' : ''}>${src}</label>`).join('');
 }
 
+// ========== UPDATE SIDEBAR BADGES BASED ON COUNTS ========== //
 export function updateSidebarBadges() {
   const counts = {};
   window.updates.forEach(u => {

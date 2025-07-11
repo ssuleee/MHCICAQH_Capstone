@@ -1,3 +1,4 @@
+/* ========== LAYOUT & CONTAINER STYLES ========== */
 body {
   font-family: 'Lato', sans-serif;
   color: #2F3E5B;
@@ -255,17 +256,24 @@ body {
   background: #fff;
 }
 
+/* ========== MAIN CONTENT & TABLE ========== */
+/* Table wrapper for rounded corners and shadow */
+/* .updates-table-wrapper styles the table container */
 .updates-table-wrapper {
   background: #fff;
   border-radius: 12px;
   box-shadow: 0 2px 8px rgba(47,62,91,0.04);
 }
+/* Table structure and header styles */
+/* .updates-table, thead, th, td, etc. */
 .updates-table {
   width: 100%;
   border-collapse: separate;
   border-spacing: 0;
   margin-bottom: 0;
 }
+/* Flexbox for header content alignment */
+/* .th-content ensures vertical alignment of header text and icons */
 .updates-table thead tr {
   background: #f8f9fb;
   border-radius: 12px 12px 0 0;
@@ -276,6 +284,7 @@ body {
 .updates-table thead tr th:last-child {
   border-top-right-radius: 12px;
 }
+/* Table row and cell styles, including hover and last row tweaks */
 .updates-table th, .updates-table td {
   padding: 16px 12px;
   text-align: left;
@@ -352,106 +361,7 @@ body {
   vertical-align: middle;
 }
 
-/* Sticky header and nav */
-.top-banner {
-  position: sticky;
-  top: 0;
-  z-index: 100;
-}
-.main-nav {
-  position: sticky;
-  top: 64px;
-  z-index: 99;
-}
-
-/* Table column widths */
-.updates-table th.category-col, .updates-table td.category-col {
-  width: 120px;
-  min-width: 90px;
-  max-width: 140px;
-  white-space: wrap;
-}
-
-/* Filter popup */
-.filter-popup {
-  position: absolute;
-  top: 100%;
-  left: 0;
-  background: #fff;
-  border: 1px solid #e3e7ef;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(47,62,91,0.08);
-  padding: 16px 20px;
-  min-width: 220px;
-  margin-top: 6px;
-  z-index: 200;
-  display: none;
-}
-.filter-popup.active {
-  display: block;
-}
-.filter-popup .filter-section {
-  margin-bottom: 14px;
-}
-.filter-popup .filter-section:last-child {
-  margin-bottom: 0;
-}
-.filter-popup label {
-  display: flex;
-  align-items: center;
-  font-size: 14px;
-  margin-bottom: 6px;
-  cursor: pointer;
-}
-.filter-popup input[type="checkbox"] {
-  margin-right: 8px;
-}
-.filter-popup .filter-options {
-  margin-left: 12px;
-  margin-top: 6px;
-}
-.filter-popup .filter-date-btn {
-  display: block;
-  width: 100%;
-  background: #f8f9fb;
-  border: 1px solid #e3e7ef;
-  border-radius: 5px;
-  padding: 6px 10px;
-  margin-bottom: 6px;
-  font-size: 14px;
-  cursor: pointer;
-  text-align: left;
-}
-.filter-popup .filter-date-btn.selected {
-  background: #EAF4FB;
-  border-color: #bfc8db;
-}
-.filter-popup .filter-date-custom {
-  display: flex;
-  gap: 8px;
-  margin-top: 6px;
-}
-.filter-popup .filter-date-custom input {
-  width: 90px;
-  font-size: 13px;
-  padding: 3px 6px;
-}
-
-/* Sort icons */
-.sort-icon {
-  width: 14px;
-  height: 14px;
-  margin-left: 4px;
-  vertical-align: middle;
-  opacity: 0.5;
-  transition: opacity 0.15s;
-  position: relative;
-  top: 2px;
-}
-.sortable.sorted .sort-icon {
-  opacity: 1;
-}
-
+/* ========== BUTTONS & ACTIONS ========== */
 /* Approve all button position */
 .approve-all-btn {
   display: block;
@@ -471,6 +381,21 @@ body {
   left: 0;
 }
 
+/* Sort icons */
+.sort-icon {
+  width: 14px;
+  height: 14px;
+  margin-left: 4px;
+  vertical-align: middle;
+  opacity: 0.5;
+  transition: opacity 0.15s;
+  position: relative;
+  top: 2px;
+}
+.sortable.sorted .sort-icon {
+  opacity: 1;
+}
+
 /* Table tweaks */
 .updates-table th, .updates-table td {
   padding: 16px 8px;
@@ -483,6 +408,7 @@ body {
   position: relative;
 }
 
+/* ========== MODAL STYLES ========== */
 /* Modal styles */
 .modal {
   position: fixed;
@@ -618,25 +544,8 @@ body {
   }
 }
 
-@media (max-width: 900px) {
-  .container {
-    flex-direction: column;
-  }
-  .sidebar {
-    width: 100%;
-    flex-direction: row;
-    overflow-x: auto;
-    border-right: none;
-    border-bottom: 1px solid #e3e7ef;
-  }
-  .main-content {
-    padding: 0;
-  }
-  .main-header, .review-updates-section {
-    padding: 16px;
-  }
-}
-
+/* ========== ATTESTATION BANNER & STATUS ========== */
+/* .attestation-banner styles the top alert/banner */
 .attestation-banner {
   display: flex;
   align-items: center;
@@ -781,7 +690,8 @@ body {
   font-family: 'Lato', sans-serif;
 }
 
-/* Visually hidden utility class for accessibility */
+/* ========== UTILITY CLASSES ========== */
+/* .visually-hidden for accessibility */
 .visually-hidden {
   position: absolute !important;
   height: 1px; width: 1px;
@@ -893,4 +803,89 @@ body {
   justify-content: flex-start;
   min-height: 24px;
   height: 100%;
+}
+
+/* ========== RESPONSIVE & MEDIA QUERIES ========== */
+@media (max-width: 900px) {
+  .container {
+    flex-direction: column;
+  }
+  .sidebar {
+    width: 100%;
+    flex-direction: row;
+    overflow-x: auto;
+    border-right: none;
+    border-bottom: 1px solid #e3e7ef;
+  }
+  .main-content {
+    padding: 0;
+  }
+  .main-header, .review-updates-section {
+    padding: 16px;
+  }
+}
+
+/* Filter popup */
+.filter-popup {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background: #fff;
+  border: 1px solid #e3e7ef;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(47,62,91,0.08);
+  padding: 16px 20px;
+  min-width: 220px;
+  margin-top: 6px;
+  z-index: 200;
+  display: none;
+}
+.filter-popup.active {
+  display: block;
+}
+.filter-popup .filter-section {
+  margin-bottom: 14px;
+}
+.filter-popup .filter-section:last-child {
+  margin-bottom: 0;
+}
+.filter-popup label {
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  margin-bottom: 6px;
+  cursor: pointer;
+}
+.filter-popup input[type="checkbox"] {
+  margin-right: 8px;
+}
+.filter-popup .filter-options {
+  margin-left: 12px;
+  margin-top: 6px;
+}
+.filter-popup .filter-date-btn {
+  display: block;
+  width: 100%;
+  background: #f8f9fb;
+  border: 1px solid #e3e7ef;
+  border-radius: 5px;
+  padding: 6px 10px;
+  margin-bottom: 6px;
+  font-size: 14px;
+  cursor: pointer;
+  text-align: left;
+}
+.filter-popup .filter-date-btn.selected {
+  background: #EAF4FB;
+  border-color: #bfc8db;
+}
+.filter-popup .filter-date-custom {
+  display: flex;
+  gap: 8px;
+  margin-top: 6px;
+}
+.filter-popup .filter-date-custom input {
+  width: 90px;
+  font-size: 13px;
+  padding: 3px 6px;
 }
