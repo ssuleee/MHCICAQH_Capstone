@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=400, initial-scale=1.0">
+    <title>Update Complete</title>
+    <link href="https://fonts.googleapis.com/css?family=Lato:400,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="popup.css">
+    <style>
+        .update-center {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 80%;
+            margin-top: 30px;
+        }
+        .update-title {
+            color: #2F3E5B;
+            font-size: 2.2rem;
+            font-weight: 400;
+            margin-bottom: 10px;
+            margin-top: 40px;
+            text-align: center;
+        }
+        .update-sub {
+            color: #4E5A72;
+            font-size: 1.1rem;
+            margin-bottom: 40px;
+            text-align: center;
+        }
+        .checkmark {
+            width: 110px;
+            height: 110px;
+            margin: 32px 0 48px 0;
+            display: block;
+        }
+        .update-btn-row {
+            display: flex;
+            justify-content: center;
+            gap: 32px;
+            width: 100%;
+        }
+        .update-btn {
+            min-width: 160px;
+            font-size: 1.15rem;
+            font-weight: 500;
+            border-radius: 12px;
+            padding: 14px 0;
+            cursor: pointer;
+            border: none;
+            transition: background 0.2s, color 0.2s, border 0.2s;
+        }
+        .update-btn.close {
+            background: #0072CE;
+            color: #fff;
+        }
+        .update-btn.close:hover {
+            background: #005fa3;
+        }
+        .update-btn.attest {
+            background: #fff;
+            color: #0072CE;
+            border: 2px solid #0072CE;
+        }
+        .update-btn.attest:hover {
+            background: #0072CE;
+            color: #fff;
+        }
+    </style>
+</head>
+<body style="background: #EAF4FB;">
+    <div class="popup-container">
+        <div class="popup-header">
+            <img src="images/logo.png" alt="CAQH Logo" class="caqh-logo">
+            <button class="close-btn" id="close-btn" aria-label="Close">&times;</button>
+        </div>
+        <div class="update-center">
+            <div class="update-title" style="color: #0072CE;">Update Complete</div>
+            <div class="update-sub">Successfully updated your CAQH profile.<br>Your next attestation is [Date], Attest Now?</div>
+            <svg class="checkmark" viewBox="0 0 100 100">
+                <circle cx="50" cy="50" r="45" fill="none" stroke="#0072CE" stroke-width="6"/>
+                <polyline points="30,55 46,70 72,38" fill="none" stroke="#0072CE" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <div class="update-btn-row">
+                <button class="update-btn close" id="update-close-btn">Close</button>
+                <button class="update-btn attest" id="update-attest-btn">Attest in CAQH</button>
+            </div>
+        </div>
+    </div>
+    <script src="update-complete.js"></script>
+</body>
+</html> 
