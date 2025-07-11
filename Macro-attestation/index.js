@@ -1,5 +1,7 @@
+import { renderTable, renderFilterOptions, updateSidebarBadges, approveUpdate, updateApproveAllBtn } from './js/table.js';
+import { showModal, hideModal } from './js/modal.js';
 // Data for updates table
-const updates = [
+window.updates = [
   {
     category: 'Practice Location',
     newValue: 'Harmony Health Clinic<br>999 Mission Bay Blvd North<br>Pittsburgh, PA 15213',
@@ -109,7 +111,7 @@ const updates = [
 ];
 
 // Add oldValue to each update (if not present)
-updates.forEach(u => {
+window.updates.forEach(u => {
   if (!u.oldValue) {
     if (u.category === 'Practice Location') {
       u.oldValue = u.newValue.replace('999', '789');
@@ -125,13 +127,13 @@ const sortIcons = {
   down: 'files/down-arrow-icon.png',
 };
 
-let sortColumn = null;
-let sortAsc = true;
-let filterText = '';
-let filterCategory = [];
-let filterSource = [];
-let filterDate = null;
-let filterDateRange = null;
+window.sortColumn = null;
+window.sortAsc = true;
+window.filterText = '';
+window.filterCategory = [];
+window.filterSource = [];
+window.filterDate = null;
+window.filterDateRange = null;
 
 let modalState = {
   index: null,
@@ -156,13 +158,13 @@ function formatDate(dateStr) {
   return `${date} ${hours}:${minutes} ${ampm}`;
 }
 
-function formatDateShort(dateStr) {
+window.formatDateShort = function(dateStr) {
   const d = new Date(dateStr);
   const mm = String(d.getMonth() + 1).padStart(2, '0');
   const dd = String(d.getDate()).padStart(2, '0');
   const yy = String(d.getFullYear()).slice(-2);
   return `${mm}/${dd}/${yy}`;
-}
+};
 
 // Helper to get only the label text from a sidebar tab (ignoring icons and badges)
 function getTabLabel(tab) {
@@ -174,380 +176,16 @@ function getTabLabel(tab) {
   return tab.textContent.trim();
 }
 
-function updateSidebarBadges() {
-  // Count updates by category
-  const counts = {};
-  updates.forEach(u => {
-    counts[u.category] = (counts[u.category] || 0) + 1;
-  });
-  // Total updates
-  const total = updates.length;
-  document.querySelectorAll('.sidebar-tab').forEach(tab => {
-    const badge = tab.querySelector('.badge');
-    if (!badge) return;
-    const cat = tab.getAttribute('data-category');
-    if (cat === 'ALL') {
-      badge.textContent = total > 0 ? total : '0';
-      badge.style.display = total > 0 ? '' : 'none';
-    } else if (cat && cat in counts) {
-      badge.textContent = counts[cat] > 0 ? counts[cat] : '0';
-      badge.style.display = counts[cat] > 0 ? '' : 'none';
-    } else if (cat === 'Disclosure') {
-      badge.textContent = total > 0 ? total : '0'; // Or customize if Disclosure should count something else
-      badge.style.display = total > 0 ? '' : 'none';
-    } else {
-      badge.textContent = '0';
-      badge.style.display = 'none';
-    }
-  });
-}
-
-function getSourceLink(source) {
-  if (source === 'Pennsylvania DHS') return 'https://provider.enrollment.dhs.pa.gov/RequestInfo';
-  if (source === 'PA State Board' || source === 'PA Medical Board') return 'https://www.pa.gov/agencies/dos/department-and-offices/bpoa/boards-commissions/medicine.html';
-  if (source === 'Diversion Control Division') return 'https://www.deadiversion.usdoj.gov/';
-  return '#';
-}
-
-function renderTable() {
-  let filtered = updates.filter(row => {
-    // Search
-    const search = filterText.toLowerCase();
-    let matches = (
-      row.category.toLowerCase().includes(search) ||
-      row.newValue.toLowerCase().includes(search) ||
-      row.source.toLowerCase().includes(search) ||
-      formatDateShort(row.date).toLowerCase().includes(search)
-    );
-    // Category filter
-    if (filterCategory.length > 0 && !filterCategory.includes(row.category)) matches = false;
-    // Source filter
-    if (filterSource.length > 0 && !filterSource.includes(row.source)) matches = false;
-    // Date filter
-    if (filterDate) {
-      const now = new Date();
-      const rowDate = new Date(row.date);
-      if (filterDate === '24h') {
-        if (now - rowDate > 24 * 60 * 60 * 1000) matches = false;
-      } else if (filterDate === 'week') {
-        if (now - rowDate > 7 * 24 * 60 * 60 * 1000) matches = false;
-      } else if (filterDate === 'month') {
-        if (now - rowDate > 31 * 24 * 60 * 60 * 1000) matches = false;
-      } else if (filterDate === 'custom' && filterDateRange) {
-        const from = new Date(filterDateRange.from);
-        const to = new Date(filterDateRange.to);
-        if (rowDate < from || rowDate > to) matches = false;
-      }
-    }
-    return matches;
-  });
-  if (sortColumn) {
-    filtered.sort((a, b) => {
-      let valA = a[sortColumn];
-      let valB = b[sortColumn];
-      if (sortColumn === 'date') {
-        valA = new Date(valA);
-        valB = new Date(valB);
-      } else {
-        valA = valA.toLowerCase();
-        valB = valB.toLowerCase();
-      }
-      if (valA < valB) return sortAsc ? -1 : 1;
-      if (valA > valB) return sortAsc ? 1 : -1;
-      return 0;
-    });
-  }
-  const approveAllBtnContainer = document.getElementById('approve-all-btn-container');
-  approveAllBtnContainer.innerHTML = '';
-  const tbody = document.getElementById('updates-tbody');
-  tbody.innerHTML = '';
-  const attestNowRow = document.getElementById('attest-now-row');
-  const bannerBtn = document.getElementById('attestation-banner-btn');
-  const bannerDesc = document.getElementById('attestation-banner-desc');
-  if (filtered.length === 0) {
-    const tr = document.createElement('tr');
-    const td = document.createElement('td');
-    td.colSpan = 6;
-    td.style.textAlign = 'center';
-    td.style.verticalAlign = 'middle';
-    td.innerHTML = `
-      <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; padding: 18px 0;">
-        <span id="no-more-updates-msg" style="color:#8a97b1;font-size:16px;">No more updates to review.</span>
-        <button id="attest-now-btn" class="attest-now-btn">Attest Now</button>
-      </div>
-    `;
-    tr.appendChild(td);
-    tbody.appendChild(tr);
-    if (attestNowRow && tbody.contains(attestNowRow)) {
-      attestNowRow.remove();
-    }
-    if (bannerBtn) bannerBtn.style.display = '';
-    if (bannerDesc) bannerDesc.style.display = 'none';
-    // Add event listener for the new button
-    setTimeout(() => {
-      const attestBtn = document.getElementById('attest-now-btn');
-      if (attestBtn) {
-        attestBtn.onclick = () => { window.location.href = 'attest.html'; };
-      }
-    }, 0);
-    return;
-  } else {
-    if (attestNowRow && tbody.contains(attestNowRow)) {
-      attestNowRow.remove();
-    }
-    if (bannerBtn) bannerBtn.style.display = 'none';
-    if (bannerDesc) bannerDesc.style.display = '';
-  }
-  filtered.forEach((row, i) => {
-    const sourceLink = getSourceLink(row.source);
-    const tr = document.createElement('tr');
-    let statusHtml = '';
-    if (approvedRows[i]) {
-      statusHtml = getStatusCell('Approved');
-    } else if (rejectedRows[i]) {
-      statusHtml = getStatusCell('Rejected');
-    }
-    tr.innerHTML = `
-      <td>
-        <input type="checkbox" class="row-checkbox" id="row-checkbox-${i}" aria-label="Select update for ${row.category}, ${formatDateShort(row.date)} from ${row.source}">
-      </td>
-      <td class="category-col">${row.category}</td>
-      <td>${row.newValue}</td>
-      <td>${formatDateShort(row.date)}</td>
-      <td><a href="${sourceLink}" target="_blank" rel="noopener noreferrer" style="color:inherit;text-decoration:none;">${row.source} <img src="files/external-link-icon.png" alt="external link" style="width:14px;height:14px;margin-left:4px;vertical-align:middle;opacity:0.7;"></a></td>
-      <td>
-        ${statusHtml || `<button class="action-btn">Approve</button> <button class="action-btn">Review</button>`}
-      </td>
-    `;
-    tbody.appendChild(tr);
-  });
-  attachCheckboxListeners();
-  updateApproveAllBtn();
-}
-
-function attachCheckboxListeners() {
-  const allCheckbox = document.getElementById('select-all');
-  const rowCheckboxes = document.querySelectorAll('.row-checkbox');
-  allCheckbox.checked = Array.from(rowCheckboxes).every(cb => cb.checked);
-  allCheckbox.indeterminate = !allCheckbox.checked && Array.from(rowCheckboxes).some(cb => cb.checked);
-  rowCheckboxes.forEach(cb => {
-    cb.addEventListener('change', updateApproveAllBtn);
-  });
-}
-
-function updateApproveAllBtn() {
-  const rowCheckboxes = document.querySelectorAll('.row-checkbox');
-  const approveAllBtnContainer = document.getElementById('approve-all-btn-container');
-  const anyChecked = Array.from(rowCheckboxes).some(cb => cb.checked);
-  approveAllBtnContainer.innerHTML = anyChecked ? '<button class="approve-all-btn" id="approve-all-btn">Approve selected</button>' : '';
-  // Update select-all state
-  const allCheckbox = document.getElementById('select-all');
-  allCheckbox.checked = Array.from(rowCheckboxes).every(cb => cb.checked);
-  allCheckbox.indeterminate = !allCheckbox.checked && anyChecked;
-  // Approve selected click
-  const approveAllBtn = document.getElementById('approve-all-btn');
-  if (approveAllBtn) {
-    approveAllBtn.addEventListener('click', () => {
-      // Approve (remove) all selected updates
-      const checkboxes = Array.from(document.querySelectorAll('.row-checkbox'));
-      const toRemove = [];
-      checkboxes.forEach((cb, idx) => {
-        if (cb.checked) toRemove.push(idx);
-      });
-      // Remove from highest index to lowest to avoid reindexing issues
-      toRemove.sort((a, b) => b - a).forEach(idx => {
-        updates.splice(idx, 1);
-      });
-      renderTable();
-      updateSidebarBadges();
-    });
-  }
-}
-
-function renderFilterOptions() {
-  // Category
-  const catSet = new Set(updates.map(u => u.category));
-  const catOptions = Array.from(catSet);
-  const catDiv = document.getElementById('filter-category-options');
-  catDiv.innerHTML = catOptions.map(cat => `<label><input type="checkbox" value="${cat}" class="filter-category-cb" ${filterCategory.includes(cat) ? 'checked' : ''}>${cat}</label>`).join('');
-  // Source
-  const srcSet = new Set(updates.map(u => u.source));
-  const srcOptions = Array.from(srcSet);
-  const srcDiv = document.getElementById('filter-source-options');
-  srcDiv.innerHTML = srcOptions.map(src => `<label><input type="checkbox" value="${src}" class="filter-source-cb" ${filterSource.includes(src) ? 'checked' : ''}>${src}</label>`).join('');
-}
-
-function showModal(index) {
-  const update = updates[index];
-  modalState = {
-    index,
-    originalNewValue: update.newValue.replace(/<br>/g, '\n'),
-    oldValue: update.oldValue.replace(/<br>/g, '\n'),
-    field: update.category,
-    date: update.date,
-    link: getSourceLink(update.source),
-  };
-  document.getElementById('modal-field').textContent = modalState.field;
-  document.getElementById('modal-new-value').value = modalState.originalNewValue;
-  document.getElementById('modal-old-value').textContent = modalState.oldValue;
-  document.getElementById('modal-link').href = modalState.link;
-  // Render update history with hyperlinks and external link icons
-  const historyDiv = document.getElementById('modal-update-history');
-  historyDiv.innerHTML = '';
-  // To add more hyperlinks, add to this object:
-  // 'Display Name': 'https://link.url'
-  const sourceLinks = {
-    'Pennsylvania DHS': 'https://provider.enrollment.dhs.pa.gov/RequestInfo',
-    'PA State Board': 'https://www.pa.gov/agencies/dos/department-and-offices/bpoa/boards-commissions/medicine.html',
-    'PA Medical Board': 'https://www.pa.gov/agencies/dos/department-and-offices/bpoa/boards-commissions/medicine.html',
-    'Diversion Control Division': 'https://www.deadiversion.usdoj.gov/'
-    // Add more sources here as needed
-  };
-  function addExternalLinks(text) {
-    Object.entries(sourceLinks).forEach(([name, url]) => {
-      const icon = `<img src="files/external-link-icon.png" alt="external link" style="width:14px;height:14px;margin-left:4px;vertical-align:middle;opacity:0.7;display:inline;">`;
-      text = text.replace(
-        new RegExp(`(?<![\">])(${name})`, 'g'),
-        `<a href="${url}" target="_blank" rel="noopener noreferrer" style="color:#205CB6;text-decoration:underline;">$1</a>${icon}`
-      );
-    });
-    return text;
-  }
-  function formatShortYear(dateStr) {
-    // Expects MM/DD/YYYY, returns MM/DD/YY
-    const parts = dateStr.split('/');
-    if (parts.length === 3) {
-      return `${parts[0]}/${parts[1]}/${parts[2].slice(-2)}`;
-    }
-    return dateStr;
-  }
-  if (update.updateHistory && Array.isArray(update.updateHistory) && update.updateHistory.length > 0) {
-    update.updateHistory.forEach(item => {
-      const entry = document.createElement('div');
-      entry.style.border = '1.5px solid #e3e7ef';
-      entry.style.borderRadius = '10px';
-      entry.style.padding = '12px 16px';
-      entry.style.marginBottom = '10px';
-      entry.style.background = '#fff';
-      entry.style.display = 'flex';
-      entry.style.alignItems = 'center'; // Center vertically
-      entry.innerHTML = `
-        <div style="min-width:56px;text-align:center;font-weight:700;font-size:16px;color:#205CB6;line-height:1.1;margin-right:16px;">
-          <div>${formatShortYear(item.date)}</div>
-          <div style="font-size:12px;font-weight:400;color:#8a97b1;">${item.time}</div>
-        </div>
-        <div style="flex:1;font-size:13px;">${addExternalLinks(item.text)}</div>
-      `;
-      historyDiv.appendChild(entry);
-    });
-  } else {
-    historyDiv.innerHTML = '<div style="color:#8a97b1;font-size:13px;">No update history available.</div>';
-  }
-  document.getElementById('review-modal').style.display = 'flex';
-  // Accessibility: trap focus in modal
-  trapModalFocus();
-  // Set initial focus to first focusable element in modal
-  setTimeout(() => {
-    const modal = document.getElementById('review-modal');
-    const focusable = modal.querySelectorAll('button, [href], input, textarea, select, [tabindex]:not([tabindex="-1"])');
-    if (focusable.length) focusable[0].focus();
-  }, 0);
-  // Remove old modal button listeners if any
-  const approveBtn = document.getElementById('modal-approve-btn');
-  const revertBtn = document.getElementById('modal-revert-btn-bottom');
-  const cancelBtn = document.getElementById('modal-cancel-btn');
-  // Remove previous listeners by cloning
-  approveBtn.replaceWith(approveBtn.cloneNode(true));
-  revertBtn.replaceWith(revertBtn.cloneNode(true));
-  cancelBtn.replaceWith(cancelBtn.cloneNode(true));
-  // Re-select after cloning
-  const approveBtnNew = document.getElementById('modal-approve-btn');
-  const revertBtnNew = document.getElementById('modal-revert-btn-bottom');
-  const cancelBtnNew = document.getElementById('modal-cancel-btn');
-  approveBtnNew.addEventListener('click', function() {
-    approveUpdate(index, null);
-  });
-  revertBtnNew.addEventListener('click', function() {
-    // Remove the update from the table (simulate revert)
-    approveUpdate(index, update.oldValue);
-  });
-  cancelBtnNew.addEventListener('click', function() {
-    document.getElementById('modal-new-value').value = modalState.originalNewValue;
-    hideModal();
-  });
-}
-
-// Trap focus in modal
-function trapModalFocus() {
-  const modal = document.getElementById('review-modal');
-  if (!modal) return;
-  const focusable = modal.querySelectorAll('button, [href], input, textarea, select, [tabindex]:not([tabindex="-1"])');
-  const first = focusable[0];
-  const last = focusable[focusable.length - 1];
-  function handleTab(e) {
-    if (e.key !== 'Tab') return;
-    if (e.shiftKey) {
-      if (document.activeElement === first) {
-        e.preventDefault();
-        last.focus();
-      }
-    } else {
-      if (document.activeElement === last) {
-        e.preventDefault();
-        first.focus();
-      }
-    }
-  }
-  modal.addEventListener('keydown', handleTab);
-  // Remove listener on close
-  modal._removeTrap = () => modal.removeEventListener('keydown', handleTab);
-}
-
-function hideModal() {
-  document.getElementById('review-modal').style.display = 'none';
-  // Remove focus trap
-  const modal = document.getElementById('review-modal');
-  if (modal && modal._removeTrap) modal._removeTrap();
-  // Optionally, return focus to the last active element if tracked
-}
-
-function formatDateModal(dateStr) {
-  const d = new Date(dateStr);
-  const options = { year: 'numeric', month: 'short', day: 'numeric' };
-  const date = d.toLocaleDateString(undefined, options);
-  let hours = d.getHours();
-  let minutes = d.getMinutes();
-  const ampm = hours >= 12 ? 'AM' : 'PM';
-  hours = hours % 12;
-  hours = hours ? hours : 12;
-  minutes = minutes < 10 ? '0' + minutes : minutes;
-  return `${date} ${hours}:${minutes} ${ampm}`;
-}
-
-function approveUpdate(index, newValue) {
-  if (newValue) {
-    rejectedRows[index] = true;
-    delete approvedRows[index];
-  } else {
-    approvedRows[index] = true;
-    delete rejectedRows[index];
-  }
-  renderTable();
-  hideModal();
-  updateSidebarBadges();
-}
-
-// Add this function to update the filter button text based on active filters
 function updateFilterButtonText() {
   const filterBtn = document.getElementById('filter-btn');
   let active = [];
-  if (filterCategory.length > 0) active.push('Category');
-  if (filterSource.length > 0) active.push('Source');
-  if (filterDate) {
-    if (filterDate === '24h') active.push('Date: 24h');
-    else if (filterDate === 'week') active.push('Date: Week');
-    else if (filterDate === 'month') active.push('Date: Month');
-    else if (filterDate === 'custom' && filterDateRange && (filterDateRange.from || filterDateRange.to)) {
+  if (window.filterCategory.length > 0) active.push('Category');
+  if (window.filterSource.length > 0) active.push('Source');
+  if (window.filterDate) {
+    if (window.filterDate === '24h') active.push('Date: 24h');
+    else if (window.filterDate === 'week') active.push('Date: Week');
+    else if (window.filterDate === 'month') active.push('Date: Month');
+    else if (window.filterDate === 'custom' && window.filterDateRange && (window.filterDateRange.from || window.filterDateRange.to)) {
       active.push('Date: Custom');
     }
   }
@@ -558,18 +196,8 @@ function updateFilterButtonText() {
   }
 }
 
-function getStatusCell(status) {
-  const now = new Date();
-  const dateStr = now.toLocaleDateString();
-  if (status === 'Approved') {
-    return `<span class="green-check">&#10003;</span> <span class="approved-status">Approved on ${dateStr}</span>`;
-  } else if (status === 'Reverted') {
-    return `<span class="reverted-x">&#10005;</span> <span class="reverted-status">Reverted on ${dateStr}</span>`;
-  }
-  return '';
-}
-let approvedRows = {};
-let rejectedRows = {};
+window.approvedRows = {};
+window.rejectedRows = {};
 
 // 1. Sidebar/nav/header popups
 function addNotPrototypedHandlers() {
@@ -601,18 +229,70 @@ function addNotPrototypedHandlers() {
 function addModalAccessibility() {
   const modal = document.getElementById('review-modal');
   if (!modal) return;
-  // Click outside modal-content closes
-  modal.addEventListener('mousedown', function(e) {
+  let lastFocusedElement = null;
+  function trapFocus(e) {
+    if (modal.style.display === 'none') return;
+    const focusable = modal.querySelectorAll('button, [href], input, textarea, select, [tabindex]:not([tabindex="-1"])');
+    const first = focusable[0];
+    const last = focusable[focusable.length - 1];
+    if (e.key === 'Tab') {
+      if (e.shiftKey) {
+        if (document.activeElement === first) {
+          e.preventDefault();
+          last.focus();
+        }
+      } else {
+        if (document.activeElement === last) {
+          e.preventDefault();
+          first.focus();
+        }
+      }
+    }
+  }
+  function handleKeydown(e) {
+    if (modal.style.display !== 'none') {
+      if (e.key === 'Escape' || e.key === 'Esc') {
+        document.getElementById('modal-cancel-btn').click();
+      } else if (e.key === 'Tab') {
+        trapFocus(e);
+      }
+    }
+  }
+  function handleMousedown(e) {
     if (e.target === modal) {
       document.getElementById('modal-cancel-btn').click();
     }
-  });
-  // Esc key closes
-  document.addEventListener('keydown', function(e) {
-    if (modal.style.display !== 'none' && (e.key === 'Escape' || e.key === 'Esc')) {
-      document.getElementById('modal-cancel-btn').click();
+  }
+  function setInitialFocus() {
+    const focusable = modal.querySelectorAll('button, [href], input, textarea, select, [tabindex]:not([tabindex="-1"])');
+    if (focusable.length) focusable[0].focus();
+  }
+  // Always add keydown listener once
+  document.addEventListener('keydown', handleKeydown);
+  // Patch showModal/hideModal to add/remove mousedown and manage focus
+  const origShowModal = window.showModal;
+  window.showModal = function(...args) {
+    lastFocusedElement = document.activeElement;
+    origShowModal.apply(this, args);
+    setTimeout(setInitialFocus, 0);
+    modal.addEventListener('mousedown', handleMousedown);
+  };
+  const origHideModal = window.hideModal;
+  window.hideModal = function(...args) {
+    if (typeof origHideModal === 'function') {
+      origHideModal.apply(this, args);
+    } else {
+      // fallback: just hide the modal
+      modal.style.display = 'none';
     }
-  });
+    modal.removeEventListener('mousedown', handleMousedown);
+    if (lastFocusedElement) lastFocusedElement.focus();
+  };
+  // If modal is already open on load, add listeners
+  if (modal.style.display !== 'none') {
+    modal.addEventListener('mousedown', handleMousedown);
+    setTimeout(setInitialFocus, 0);
+  }
 }
 // 3. Approve/revert: show status instead of buttons
 function getStatusCell(status) {
@@ -627,7 +307,7 @@ function addProviderStatus() {
   if (lastAttested && !document.getElementById('provider-status-line')) {
     const statusLine = document.createElement('div');
     statusLine.id = 'provider-status-line';
-    statusLine.innerHTML = 'Provider status: <span class="status-active">Active</span>';
+    statusLine.innerHTML = '<span class="provider-status-label">Provider status:</span> <span class="status-active">Active</span>';
     lastAttested.parentNode.appendChild(statusLine);
   }
 }
@@ -653,11 +333,11 @@ document.addEventListener('DOMContentLoaded', () => {
   document.querySelectorAll('.updates-table th.sortable').forEach(th => {
     th.addEventListener('click', () => {
       const col = th.getAttribute('data-sort');
-      if (sortColumn === col) {
-        sortAsc = !sortAsc;
+      if (window.sortColumn === col) {
+        window.sortAsc = !window.sortAsc;
       } else {
-        sortColumn = col;
-        sortAsc = false;
+        window.sortColumn = col;
+        window.sortAsc = false;
       }
       renderTable();
       updateSortIcons();
@@ -666,7 +346,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Search
   document.querySelector('.search-input').addEventListener('input', e => {
-    filterText = e.target.value;
+    window.filterText = e.target.value;
     renderTable();
   });
 
@@ -704,17 +384,17 @@ document.addEventListener('DOMContentLoaded', () => {
     if (e.target.classList.contains('filter-category-cb')) {
       const val = e.target.value;
       if (e.target.checked) {
-        filterCategory.push(val);
+        window.filterCategory.push(val);
       } else {
-        filterCategory = filterCategory.filter(c => c !== val);
+        window.filterCategory = window.filterCategory.filter(c => c !== val);
       }
     }
     if (e.target.classList.contains('filter-source-cb')) {
       const val = e.target.value;
       if (e.target.checked) {
-        filterSource.push(val);
+        window.filterSource.push(val);
       } else {
-        filterSource = filterSource.filter(s => s !== val);
+        window.filterSource = window.filterSource.filter(s => s !== val);
       }
     }
     renderTable();
@@ -727,10 +407,10 @@ document.addEventListener('DOMContentLoaded', () => {
       document.querySelectorAll('.filter-date-btn').forEach(b => b.classList.remove('selected'));
       if (wasSelected) {
         // Unselecting: reset all filters
-        filterCategory = [];
-        filterSource = [];
-        filterDate = null;
-        filterDateRange = null;
+        window.filterCategory = [];
+        window.filterSource = [];
+        window.filterDate = null;
+        window.filterDateRange = null;
         document.getElementById('filter-date-custom').style.display = 'none';
         renderTable();
         renderFilterOptions();
@@ -738,26 +418,26 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
       }
       this.classList.add('selected');
-      filterDate = this.getAttribute('data-range');
-      if (filterDate === 'custom') {
+      window.filterDate = this.getAttribute('data-range');
+      if (window.filterDate === 'custom') {
         document.getElementById('filter-date-custom').style.display = '';
       } else {
         document.getElementById('filter-date-custom').style.display = 'none';
-        filterDateRange = null;
+        window.filterDateRange = null;
       }
       renderTable();
       updateFilterButtonText();
     });
   });
   document.getElementById('filter-date-from').addEventListener('change', function() {
-    if (!filterDateRange) filterDateRange = {};
-    filterDateRange.from = this.value;
+    if (!window.filterDateRange) window.filterDateRange = {};
+    window.filterDateRange.from = this.value;
     renderTable();
     updateFilterButtonText();
   });
   document.getElementById('filter-date-to').addEventListener('change', function() {
-    if (!filterDateRange) filterDateRange = {};
-    filterDateRange.to = this.value;
+    if (!window.filterDateRange) window.filterDateRange = {};
+    window.filterDateRange.to = this.value;
     renderTable();
     updateFilterButtonText();
   });
@@ -769,10 +449,10 @@ document.addEventListener('DOMContentLoaded', () => {
     updateSidebarBadges(); // Defensive: ensure badges update after filter apply
   });
   document.getElementById('clear-filter-btn').addEventListener('click', () => {
-    filterCategory = [];
-    filterSource = [];
-    filterDate = null;
-    filterDateRange = null;
+    window.filterCategory = [];
+    window.filterSource = [];
+    window.filterDate = null;
+    window.filterDateRange = null;
     document.querySelectorAll('.filter-date-btn').forEach(b => b.classList.remove('selected'));
     document.getElementById('filter-date-custom').style.display = 'none';
     renderTable();
@@ -795,31 +475,36 @@ document.addEventListener('DOMContentLoaded', () => {
       const row = e.target.closest('tr');
       const idx = Array.from(document.querySelectorAll('#updates-tbody tr')).indexOf(row);
       if (idx !== -1) {
-        showModal(idx);
+        showModal(idx, modalState, approveUpdate, addEDTtoUpdateHistory);
       }
     }
   });
 
   // Modal close (X)
-  document.getElementById('modal-close-btn').addEventListener('click', hideModal);
+  const modalCloseBtn = document.getElementById('modal-close-btn');
+  if (modalCloseBtn) modalCloseBtn.addEventListener('click', hideModal);
   // Modal cancel
-  document.getElementById('modal-cancel-btn').addEventListener('click', function() {
+  const modalCancelBtn = document.getElementById('modal-cancel-btn');
+  if (modalCancelBtn) modalCancelBtn.addEventListener('click', function() {
     document.getElementById('modal-new-value').value = modalState.originalNewValue;
     hideModal();
   });
   // Modal revert
-  document.getElementById('modal-revert-btn').addEventListener('click', function() {
+  const modalRevertBtn = document.getElementById('modal-revert-btn');
+  if (modalRevertBtn) modalRevertBtn.addEventListener('click', function() {
     document.getElementById('modal-new-value').value = modalState.oldValue;
   });
   // Modal save
-  document.getElementById('modal-save-btn').addEventListener('click', function() {
+  const modalSaveBtn = document.getElementById('modal-save-btn');
+  if (modalSaveBtn) modalSaveBtn.addEventListener('click', function() {
     const newValue = document.getElementById('modal-new-value').value.replace(/\n/g, '<br>');
-    updates[modalState.index].newValue = newValue;
+    window.updates[modalState.index].newValue = newValue;
     renderTable();
     hideModal();
   });
   // Add event listener to modal backdrop to close modal on click (same as Cancel)
-  document.querySelector('.modal-backdrop').addEventListener('click', function() {
+  const modalBackdrop = document.querySelector('.modal-backdrop');
+  if (modalBackdrop) modalBackdrop.addEventListener('click', function() {
     document.getElementById('modal-new-value').value = modalState.originalNewValue;
     hideModal();
   });
@@ -842,9 +527,9 @@ function updateSortIcons() {
     const col = th.getAttribute('data-sort');
     const icon = th.querySelector('.sort-icon');
     if (!icon) return;
-    if (sortColumn === col) {
+    if (window.sortColumn === col) {
       th.classList.add('sorted');
-      icon.src = sortAsc ? sortIcons.up : sortIcons.down;
+      icon.src = window.sortAsc ? sortIcons.up : sortIcons.down;
       icon.style.opacity = 1;
     } else {
       icon.src = sortIcons.default;

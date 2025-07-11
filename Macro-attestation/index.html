@@ -154,12 +154,12 @@
             <table class="updates-table">
               <thead>
                 <tr>
-                  <th scope="col"><label for="select-all" class="visually-hidden">Select all updates</label><input type="checkbox" id="select-all"></th>
-                  <th scope="col" class="sortable category-col" data-sort="category">Category <img src="files/sort-icon.png" class="sort-icon" id="category-sort-icon" alt="" role="presentation"></th>
-                  <th scope="col">New Value</th>
-                  <th scope="col" class="sortable" data-sort="date">Date <img src="files/sort-icon.png" class="sort-icon" id="date-sort-icon" alt="" role="presentation"></th>
-                  <th scope="col" class="sortable" data-sort="source">Source <img src="files/sort-icon.png" class="sort-icon" id="source-sort-icon" alt="" role="presentation"></th>
-                  <th scope="col">Actions</th>
+                  <th scope="col"><div class="th-content"><label for="select-all" class="visually-hidden">Select all updates</label><input type="checkbox" id="select-all"></div></th>
+                  <th scope="col" class="sortable category-col" data-sort="category"><div class="th-content">Category <img src="files/sort-icon.png" class="sort-icon" id="category-sort-icon" alt="" role="presentation"></div></th>
+                  <th scope="col"><div class="th-content">New Value</div></th>
+                  <th scope="col" class="sortable" data-sort="date"><div class="th-content">Date <img src="files/sort-icon.png" class="sort-icon" id="date-sort-icon" alt="" role="presentation"></div></th>
+                  <th scope="col" class="sortable" data-sort="source"><div class="th-content">Source <img src="files/sort-icon.png" class="sort-icon" id="source-sort-icon" alt="" role="presentation"></div></th>
+                  <th scope="col"><div class="th-content">Actions</div></th>
                 </tr>
               </thead>
               <tbody id="updates-tbody">
@@ -207,6 +207,6 @@
       </div>
     </div>
   </div>
-  <script src="index.js"></script>
+  <script type="module" src="index.js"></script>
 </body>
 </html>
