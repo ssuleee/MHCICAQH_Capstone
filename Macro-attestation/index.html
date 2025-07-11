@@ -28,16 +28,16 @@
         <span class="user-id">CAQH ID: 14689159</span>
       </div>
       <div class="header-icons">
-        <img src="files/notifications-icon.png" class="icon" alt="Notifications">
-        <img src="files/help-icon.png" class="icon" alt="Help">
-        <img src="files/settings-icon.png" class="icon" alt="Settings">
+        <img src="files/notifications-icon.png" class="icon" alt="" role="presentation">
+        <img src="files/help-icon.png" class="icon" alt="" role="presentation">
+        <img src="files/settings-icon.png" class="icon" alt="" role="presentation">
       </div>
     </div>
   </header>
   <nav class="main-nav">
     <button class="nav-tab">Home</button>
-    <button class="nav-tab active"><img src="files/white-x-icon.png" class="icon nav-icon" alt="Profile Data"> Profile Data</button>
-    <button class="nav-tab"><img src="files/white-x-icon.png" class="icon nav-icon" alt="Documents"> Documents</button>
+    <button class="nav-tab active"><img src="files/white-x-icon.png" class="icon nav-icon" alt="" role="presentation"> Profile Data</button>
+    <button class="nav-tab"><img src="files/white-x-icon.png" class="icon nav-icon" alt="" role="presentation"> Documents</button>
     <button class="nav-tab">Authorize</button>
   </nav>
   <div class="container main-content-wrapper">
@@ -46,7 +46,7 @@
         <div class="sidebar-section">
           <div class="sidebar-overview">OVERVIEW</div>
           <button class="sidebar-tab active" data-category="ALL">
-            <img src="files/review-updates-icon.png" class="icon" alt="Review Updates">
+            <img src="files/review-updates-icon.png" class="icon" alt="" role="presentation">
             Review Updates
             <span class="badge">5</span>
           </button>
@@ -54,50 +54,50 @@
         <div class="sidebar-section">
           <div class="sidebar-sections-title">SECTIONS</div>
           <button class="sidebar-tab">
-            <img src="files/personal-information-icon.png" class="icon" alt="Personal Information">
+            <img src="files/personal-information-icon.png" class="icon" alt="" role="presentation">
             Personal Information
           </button>
           <button class="sidebar-tab" data-category="Professional ID">
-            <img src="files/professional-ids-icon.png" class="icon" alt="Professional IDs">
+            <img src="files/professional-ids-icon.png" class="icon" alt="" role="presentation">
             Professional IDs
             <span class="badge">2</span>
           </button>
           <button class="sidebar-tab">
-            <img src="files/education-professional-training-icon.png" class="icon" alt="Education & Professional Training">
+            <img src="files/education-professional-training-icon.png" class="icon" alt="" role="presentation">
             Education & Professional Training
           </button>
           <button class="sidebar-tab">
-            <img src="files/specialties-icon.png" class="icon" alt="Specialties">
+            <img src="files/specialties-icon.png" class="icon" alt="" role="presentation">
             Specialties
           </button>
           <button class="sidebar-tab" data-category="Practice Location">
-            <img src="files/practice-locations-icon.png" class="icon" alt="Practice Locations">
+            <img src="files/practice-locations-icon.png" class="icon" alt="" role="presentation">
             Practice Locations
             <span class="badge">1</span>
           </button>
           <button class="sidebar-tab">
-            <img src="files/hospital-affiliations-icon.png" class="icon" alt="Hospital Affiliations">
+            <img src="files/hospital-affiliations-icon.png" class="icon" alt="" role="presentation">
             Hospital Affiliations
           </button>
           <button class="sidebar-tab">
-            <img src="files/credentialing-contacts-icon.png" class="icon" alt="Credentialing Contacts">
+            <img src="files/credentialing-contacts-icon.png" class="icon" alt="" role="presentation">
             Credentialing Contacts
           </button>
           <button class="sidebar-tab" data-category="Professional Liability Insurance">
-            <img src="files/professional-liability-insurance-icon.png" class="icon" alt="Professional Liability Insurance">
+            <img src="files/professional-liability-insurance-icon.png" class="icon" alt="" role="presentation">
             Professional Liability Insurance
             <span class="badge">2</span>
           </button>
           <button class="sidebar-tab">
-            <img src="files/employment-information-icon.png" class="icon" alt="Employment Information">
+            <img src="files/employment-information-icon.png" class="icon" alt="" role="presentation">
             Employment Information
           </button>
           <button class="sidebar-tab">
-            <img src="files/professional-resources-icon.png" class="icon" alt="Professional Resources">
+            <img src="files/professional-resources-icon.png" class="icon" alt="" role="presentation">
             Professional Resources
           </button>
           <button class="sidebar-tab" data-category="Disclosure">
-            <img src="files/disclosure-icon.png" class="icon" alt="Disclosure">
+            <img src="files/disclosure-icon.png" class="icon" alt="" role="presentation">
             Disclosure
             <span class="badge">5</span>
           </button>
@@ -116,6 +116,7 @@
           <h1>Review Updates</h1>
           <p class="subtext"><b>These updates were made through external systems.</b> Please review and either approve or review each change.</p>
           <div class="table-controls">
+            <label for="filter-btn" class="visually-hidden">Open filter options</label>
             <button class="filter-btn" id="filter-btn">Filter</button>
             <div class="filter-popup" id="filter-popup">
               <div class="filter-section">
@@ -130,7 +131,11 @@
                   <button class="filter-date-btn" data-range="month">Past month</button>
                   <button class="filter-date-btn" data-range="custom">Custom</button>
                   <div class="filter-date-custom" id="filter-date-custom" style="display:none;">
-                    <input type="date" id="filter-date-from"> to <input type="date" id="filter-date-to">
+                    <label for="filter-date-from" class="visually-hidden">Filter from date</label>
+                    <input type="date" id="filter-date-from">
+                    to
+                    <label for="filter-date-to" class="visually-hidden">Filter to date</label>
+                    <input type="date" id="filter-date-to">
                   </div>
                 </div>
               </div>
@@ -141,19 +146,20 @@
               <button class="filter-btn" id="apply-filter-btn" style="margin-top:10px;">Apply</button>
               <button class="filter-btn" id="clear-filter-btn" style="margin-top:10px;">Clear</button>
             </div>
-            <input type="text" class="search-input" placeholder="Search">
+            <label for="search-input" class="visually-hidden">Search updates</label>
+            <input type="text" class="search-input" id="search-input" placeholder="Search">
           </div>
           <div id="approve-all-btn-container"></div>
           <div class="updates-table-wrapper">
             <table class="updates-table">
               <thead>
                 <tr>
-                  <th><input type="checkbox" id="select-all"></th>
-                  <th class="sortable category-col" data-sort="category">Category <img src="files/sort-icon.png" class="sort-icon" id="category-sort-icon"></th>
-                  <th>New Value</th>
-                  <th class="sortable" data-sort="date">Date <img src="files/sort-icon.png" class="sort-icon" id="date-sort-icon"></th>
-                  <th class="sortable" data-sort="source">Source <img src="files/sort-icon.png" class="sort-icon" id="source-sort-icon"></th>
-                  <th>Actions</th>
+                  <th scope="col"><label for="select-all" class="visually-hidden">Select all updates</label><input type="checkbox" id="select-all"></th>
+                  <th scope="col" class="sortable category-col" data-sort="category">Category <img src="files/sort-icon.png" class="sort-icon" id="category-sort-icon" alt="" role="presentation"></th>
+                  <th scope="col">New Value</th>
+                  <th scope="col" class="sortable" data-sort="date">Date <img src="files/sort-icon.png" class="sort-icon" id="date-sort-icon" alt="" role="presentation"></th>
+                  <th scope="col" class="sortable" data-sort="source">Source <img src="files/sort-icon.png" class="sort-icon" id="source-sort-icon" alt="" role="presentation"></th>
+                  <th scope="col">Actions</th>
                 </tr>
               </thead>
               <tbody id="updates-tbody">

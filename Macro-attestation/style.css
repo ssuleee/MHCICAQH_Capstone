@@ -93,8 +93,8 @@ body {
   vertical-align: middle;
 }
 .badge {
-  background: #FCE6E4;
-  color: #F06259;
+  background: #F9DADA;
+  color: #B23B2E;
   font-size: 13px;
   font-weight: 700;
   border-radius: 12px;
@@ -120,7 +120,7 @@ body {
 .nav-tab {
   background: none;
   border: none;
-  color: #fff;
+  color: #FFFFFF;
   font-family: 'Lato', sans-serif;
   font-size: 13px;
   font-weight: 700;
@@ -139,7 +139,7 @@ body {
   margin-right: 10px;
 }
 .nav-tab.active, .nav-tab:focus {
-  background: #174A8B;
+  background: #14386B;
 }
 
 .main-content-wrapper {
@@ -192,7 +192,7 @@ body {
 }
 .user-id {
   font-size: 14px;
-  color: #8a97b1;
+  color: #2F3E5B;
 }
 .header-icons {
   display: flex;
@@ -219,7 +219,7 @@ body {
   margin: 0 0 8px 0;
 }
 .subtext {
-  color: #8a97b1;
+  color: #2F3E5B;
   font-size: 15px;
   margin-bottom: 24px;
 }
@@ -774,4 +774,16 @@ body {
   font-style: italic;
   max-width: 650px;
   font-family: 'Lato', sans-serif;
+}
+
+/* Visually hidden utility class for accessibility */
+.visually-hidden {
+  position: absolute !important;
+  height: 1px; width: 1px;
+  overflow: hidden;
+  clip: rect(1px, 1px, 1px, 1px);
+  white-space: nowrap;
+  border: 0;
+  padding: 0;
+  margin: -1px;
 }
