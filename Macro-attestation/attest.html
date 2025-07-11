@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CAQH Provider Data Portal - Attestation</title>
+  <link href="https://fonts.googleapis.com/css?family=Lato:400,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <link rel="preload" href="files/Volte.otf" as="font" type="font/otf" crossorigin>
+  <style>
+    @font-face {
+      font-family: 'Volte';
+      src: url('files/Volte.otf') format('opentype');
+      font-weight: normal;
+      font-style: normal;
+      font-display: swap;
+    }
+  </style>
+</head>
+<body>
+  <header class="top-banner">
+    <img src="files/caqh-logo.png" alt="CAQH Logo" class="logo">
+    <div class="vertical-divider"></div>
+    <div class="portal-title" style="font-family: 'Volte', sans-serif;">PROVIDER DATA PORTAL</div>
+    <div class="top-banner-right">
+      <div class="user-info">
+        <span class="user-name">Sophia Garcia</span>
+        <span class="user-id">CAQH ID: 14689159</span>
+      </div>
+      <div class="header-icons">
+        <img src="files/notifications-icon.png" class="icon" alt="Notifications">
+        <img src="files/help-icon.png" class="icon" alt="Help">
+        <img src="files/settings-icon.png" class="icon" alt="Settings">
+      </div>
+    </div>
+  </header>
+  <nav class="main-nav">
+    <button class="nav-tab">Home</button>
+    <button class="nav-tab active"><img src="files/white-x-icon.png" class="icon nav-icon" alt="Profile Data"> Profile Data</button>
+    <button class="nav-tab"><img src="files/white-x-icon.png" class="icon nav-icon" alt="Documents"> Documents</button>
+    <button class="nav-tab">Authorize</button>
+  </nav>
+  <div class="container main-content-wrapper">
+    <div class="main-content-inner" style="justify-content:center;">
+      <main class="main-content" style="width:100%;max-width:800px;margin:auto;">
+        <div style="background:#fff;border:1.5px solid #e3e7ef;border-radius:12px;padding:0 0 32px 0;margin-top:32px;box-shadow:0 2px 8px rgba(47,62,91,0.04);">
+          <div style="background:#fffbe6;border-bottom:1.5px solid #ffe1a1;padding:16px 32px 12px 32px;border-radius:12px 12px 0 0;display:flex;align-items:center;gap:12px;">
+            <span style="font-size:20px;color:#e6a100;">&#9888;</span>
+            <span style="font-size:15px;color:#7a5a00;">You have made changes to your profile since your last attestation. You must attest for Participating Organizations to see your updated data.</span>
+          </div>
+          <div style="padding:32px 32px 0 32px;">
+            <h2 style="margin-top:0;font-size:24px;font-weight:700;color:#2F3E5B;">You are ready to attest!</h2>
+            <p style="font-size:15px;color:#2F3E5B;margin-bottom:18px;">Click Attest to certify that you have carefully <a href="#" id="reviewed-link" style="color:#205CB6;text-decoration:underline;">reviewed all information</a> contained within your CAQH Profile and that all information provided by you in the profile is true, correct and complete to the best of your knowledge. You also acknowledge that your CAQH Profile will not be considered complete until supporting documentation and properly executed Authorization, Attestation and Release Form is remitted. Once you attest, you can go to the Documents page to upload your supporting documents.</p>
+            <div style="margin-bottom:18px;">
+              <label style="display:flex;align-items:center;font-size:16px;font-weight:700;color:#b23b2e;">
+                <input type="checkbox" id="attest-checkbox" style="width:18px;height:18px;margin-right:10px;accent-color:#b23b2e;">
+                I have reviewed my Directory Data. To view your Directory Data, click <a href="#" id="directory-link" style="color:#205CB6;text-decoration:underline;">here</a>.
+              </label>
+            </div>
+            <div style="background:#f8f9fb;border:1.5px solid #e3e7ef;border-radius:8px;padding:16px 18px;margin-bottom:18px;max-height:110px;overflow:auto;font-size:13px;color:#2F3E5B;">
+              I understand and agree that, as part of the credentialing application process for participation, membership and/or clinical privileges (hereinafter, referred to as "Participation") at or with each healthcare organization indicated on the "List of Authorized Organizations" that accompanies this Provider Application (hereinafter, each healthcare organization on the "List of Authorized Organizations" is individually referred to as the "Entity"), and any of the Entity's affiliated entities, I am required to provide sufficient and accurate information for a proper evaluation of my current licensure, relevant training and/or experience, clinical competence, health status, character, ethics, and any other criteria used by the Entity for determining initial and ongoing eligibility for Participation. Each Entity and its representatives, employees, and agent(s) acknowledge that the information obtained relating to the application process will be held confidential to the extent permitted by law. I acknowledge that each Entity has its own criteria for acceptance, and I may be accepted or rejected by each independently. I further acknowledge and understand that my cooperation in obtaining, updating information, and my participation in the credentialing process does not guarantee acceptance or continued participation by any Entity. I authorize each Entity to consult with any person, organization, or institution that may have information bearing on my professional qualifications, credentials, clinical competence, character, and ethical qualifications. I release from liability all representatives of the Entity and its agents for their acts performed in good faith and without malice in connection with evaluating my application and credentials. I also release from liability all individuals and organizations who provide information to the Entity in good faith and without malice concerning my professional competence, ethics, character, and other qualifications for participation. I understand that any misrepresentation or omission of information may result in denial or termination of participation. I certify that the information provided is true, correct, and complete to the best of my knowledge.
+            </div>
+            <div style="display:flex;align-items:center;gap:16px;margin-bottom:24px;">
+              <button id="attest-btn" style="background:#d32f2f;color:#fff;font-size:16px;font-weight:700;padding:10px 32px;border:none;border-radius:8px;box-shadow:0 2px 8px rgba(47,62,91,0.04);cursor:pointer;">ATTEST</button>
+              <button id="download-pdf-btn" style="background:#e3e7ef;color:#2F3E5B;font-size:15px;font-weight:700;padding:10px 24px;border:none;border-radius:8px;cursor:pointer;">DOWNLOAD PDF</button>
+            </div>
+            <div style="display:flex;justify-content:space-between;gap:24px;">
+              <button id="view-directory-btn" style="flex:1;text-align:center;background:none;border:none;cursor:pointer;padding:0;display:flex;flex-direction:column;align-items:center;gap:8px;">
+                <img src="files/credentialing-contacts-icon.png" alt="Directory Data" style="width:48px;height:48px;">
+                <span style="font-size:15px;font-weight:700;color:#2F3E5B;">View Your Directory Data</span>
+              </button>
+              <button id="view-summary-btn" style="flex:1;text-align:center;background:none;border:none;cursor:pointer;padding:0;display:flex;flex-direction:column;align-items:center;gap:8px;">
+                <img src="files/review-updates-icon.png" alt="Data Summary" style="width:48px;height:48px;">
+                <span style="font-size:15px;font-weight:700;color:#2F3E5B;">View Your Data Summary</span>
+              </button>
+              <button id="download-state-btn" style="flex:1;text-align:center;background:none;border:none;cursor:pointer;padding:0;display:flex;flex-direction:column;align-items:center;gap:8px;">
+                <img src="files/professional-ids-icon.png" alt="State Application" style="width:48px;height:48px;">
+                <span style="font-size:15px;font-weight:700;color:#2F3E5B;">Download Your State Application</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+<script>
+// Logo click
+const logo = document.querySelector('.logo');
+if (logo) logo.onclick = () => { window.location.href = 'index.html'; };
+// Home and Profile Data nav
+const navTabs = document.querySelectorAll('.nav-tab');
+if (navTabs[0]) navTabs[0].onclick = () => { window.location.href = 'index.html'; };
+if (navTabs[1]) navTabs[1].onclick = () => { window.location.href = 'index.html'; };
+// reviewed all information link
+const reviewedLink = document.getElementById('reviewed-link');
+if (reviewedLink) reviewedLink.onclick = (e) => { e.preventDefault(); window.location.href = 'index.html'; };
+// directory data 'here' link
+const directoryLink = document.getElementById('directory-link');
+if (directoryLink) directoryLink.onclick = (e) => { e.preventDefault(); window.location.href = 'index.html'; };
+// Download PDF
+const downloadPdfBtn = document.getElementById('download-pdf-btn');
+if (downloadPdfBtn) downloadPdfBtn.onclick = (e) => { e.preventDefault(); alert('File downloaded'); };
+// View Directory Data
+const viewDirectoryBtn = document.getElementById('view-directory-btn');
+if (viewDirectoryBtn) viewDirectoryBtn.onclick = (e) => { e.preventDefault(); alert('File downloaded'); };
+// View Data Summary
+const viewSummaryBtn = document.getElementById('view-summary-btn');
+if (viewSummaryBtn) viewSummaryBtn.onclick = (e) => { e.preventDefault(); alert('File downloaded'); };
+// Download State Application
+const downloadStateBtn = document.getElementById('download-state-btn');
+if (downloadStateBtn) downloadStateBtn.onclick = (e) => { e.preventDefault(); alert('File downloaded'); };
+// ATTEST button click: show completion screen
+const attestBtn = document.getElementById('attest-btn');
+if (attestBtn) attestBtn.onclick = function() {
+  const mainContent = document.querySelector('.main-content');
+  if (mainContent) {
+    mainContent.innerHTML = `
+      <div class="attestation-complete-container">
+        <div class="attestation-complete-box">
+          <img src="files/success-icon.png" alt="Success" class="attestation-complete-icon">
+          <h1 class="attestation-complete-title">Attestation Completed</h1>
+          <p class="attestation-complete-desc" style=";margin-bottom:0.5em;">Your provider data is now up to date.</p>
+          <p class="attestation-complete-desc">Keeping your information current helps ensure accurate directories, supports health plans and programs, and helps patients find and reach you.</p>
+          <div class="attestation-complete-btns">
+            <button id="download-confirmation-btn" class="action-btn">Download Confirmation</button>
+            <button id="return-home-btn" class="action-btn" style="background:#fff;color:#2F4EA7;border:2px solid #2F4EA7;">Return to Home</button>
+          </div>
+          <div class="attestation-complete-note">We'll remind you when it’s time to attest again. You can update your profile at any time.</div>
+        </div>
+      </div>
+    `;
+    // Add button handlers
+    const downloadBtn = document.getElementById('download-confirmation-btn');
+    if (downloadBtn) downloadBtn.onclick = () => { alert('File downloaded'); };
+    const returnBtn = document.getElementById('return-home-btn');
+    if (returnBtn) returnBtn.onclick = () => { window.location.href = 'index.html'; };
+  }
+};
+</script>
+</body>
+</html> 
