@@ -33,7 +33,8 @@ export function showModal(index, modalState, approveUpdate, addEDTtoUpdateHistor
     'Pennsylvania DHS': 'https://provider.enrollment.dhs.pa.gov/RequestInfo',
     'PA State Board': 'https://www.pa.gov/agencies/dos/department-and-offices/bpoa/boards-commissions/medicine.html',
     'PA Medical Board': 'https://www.pa.gov/agencies/dos/department-and-offices/bpoa/boards-commissions/medicine.html',
-    'Diversion Control Division': 'https://www.deadiversion.usdoj.gov/'
+    'Diversion Control Division': 'https://www.deadiversion.usdoj.gov/',
+    'Rx Minuteman Press': 'https://www.rxminutemanpress.com/'
   };
   function addExternalLinks(text) {
     Object.entries(sourceLinks).forEach(([name, url]) => {

@@ -6,20 +6,20 @@ import { showModal, hideModal } from './js/modal.js';
 window.updates = [
   {
     category: 'Practice Location',
-    newValue: 'Harmony Health Clinic<br>999 Mission Bay Blvd North<br>Pittsburgh, PA 15213',
-    oldValue: 'Harmony Health Clinic<br>789 Mission Bay Blvd North<br>Pittsburgh, PA 15213',
+    newValue: 'Harmony Health Clinic<br>801 Ostrum St. Unit 303<br>Union town, PA 18015',
+    oldValue: 'Harmony Health Clinic<br>824 Ostrum St, Ste. 5A<br>Uniontown, PA 18015',
     date: '2025-07-20T09:15',
-    source: 'Pennsylvania DHS',
+    source: 'Rx Minuteman Press',
     updateHistory: [
       {
         date: '6/20/2025',
         time: '9:15am',
-        text: 'You updated this address in Pennsylvania DHS while completing provider enrollment for the Children\'s Health Insurance Program (CHIP).'
+        text: 'You updated this address in Rx Minuteman Press while ordering a new prescription pad.'
       },
       {
         date: '4/12/2024',
         time: '2:20pm',
-        text: 'Your address was updated during an online revalidation with Keystone First, a Pennsylvania Medicaid MCO.'
+        text: 'Your address was updated on Pennsylvania DHS while enrolling for CHIP.'
       },
       {
         date: '2/15/2022',
