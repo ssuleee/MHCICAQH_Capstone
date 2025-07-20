@@ -8,7 +8,7 @@ window.updates = [
     category: 'Practice Location',
     newValue: 'Harmony Health Clinic<br>801 Ostrum St. Unit 303<br>Union town, PA 18015',
     oldValue: 'Harmony Health Clinic<br>824 Ostrum St, Ste. 5A<br>Uniontown, PA 18015',
-    date: '2025-07-20T09:15',
+    date: '2025-07-22T09:15',
     source: 'Rx Minuteman Press',
     updateHistory: [
       {
@@ -29,31 +29,26 @@ window.updates = [
     ]
   },
   {
-    category: 'Professional ID',
-    newValue: 'State: PA<br>Num: 123-456<br>Exp: 6/17/2027',
-    oldValue: 'State: PA<br>Num: 123-456<br>Exp: 6/17/2025',
-    date: '2025-06-17T14:34',
-    source: 'PA State Board',
+    category: 'Personal Information',
+    newValue: '412-239-1234',
+    oldValue: '412-239-9837',
+    date: '2025-07-22T09:15',
+    source: 'Rx Minuteman Express',
     updateHistory: [
       {
         date: '6/17/2025',
         time: '2:34pm',
-        text: 'Renewed Professional ID with PA State Board.'
+        text: 'Phone number updated via Rx Minuteman Express.'
       },
       {
-        date: '6/17/2023',
-        time: '2:30pm',
-        text: 'Previous Professional ID expired.'
+        date: '3/10/2024',
+        time: '11:00am',
+        text: 'Phone number confirmed during annual profile review.'
       },
       {
-        date: '6/17/2022',
-        time: '2:00pm',
-        text: 'Professional ID renewed with PA State Board.'
-      },
-      {
-        date: '6/17/2021',
-        time: '1:00pm',
-        text: 'Professional ID created in CAQH.'
+        date: '1/15/2023',
+        time: '9:30am',
+        text: 'Initial phone number entered during onboarding.'
       }
     ]
   },
