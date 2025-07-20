@@ -12,8 +12,8 @@ window.updates = [
     source: 'Rx Minuteman Press',
     updateHistory: [
       {
-        date: '6/20/2025',
-        time: '9:15am',
+        date: '7/22/2025',
+        time: '2:34pm',
         text: 'You updated this address in Rx Minuteman Press while ordering a new prescription pad.'
       },
       {
@@ -36,9 +36,9 @@ window.updates = [
     source: 'Rx Minuteman Express',
     updateHistory: [
       {
-        date: '6/17/2025',
+        date: '7/22/2025',
         time: '2:34pm',
-        text: 'Phone number updated via Rx Minuteman Express.'
+        text: 'You updated this phone number in Rx Minuteman Press while ordering a new prescription pad.'
       },
       {
         date: '3/10/2024',
