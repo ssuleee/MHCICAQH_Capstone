@@ -232,11 +232,14 @@ export function renderFilterOptions() {
 
 // ========== UPDATE SIDEBAR BADGES BASED ON COUNTS ========== //
 export function updateSidebarBadges() {
+  // Only count updates that are not approved or reverted
   const counts = {};
-  window.updates.forEach(u => {
-    counts[u.category] = (counts[u.category] || 0) + 1;
+  window.updates.forEach((u, i) => {
+    if (!window.approvedRows[i] && !window.rejectedRows[i]) {
+      counts[u.category] = (counts[u.category] || 0) + 1;
+    }
   });
-  const total = window.updates.length;
+  const total = Object.values(counts).reduce((a, b) => a + b, 0);
   document.querySelectorAll('.sidebar-tab').forEach(tab => {
     const badge = tab.querySelector('.badge');
     if (!badge) return;
@@ -247,9 +250,6 @@ export function updateSidebarBadges() {
     } else if (cat && cat in counts) {
       badge.textContent = counts[cat] > 0 ? counts[cat] : '0';
       badge.style.display = counts[cat] > 0 ? '' : 'none';
-    } else if (cat === 'Disclosure') {
-      badge.textContent = total > 0 ? total : '0';
-      badge.style.display = total > 0 ? '' : 'none';
     } else {
       badge.textContent = '0';
       badge.style.display = 'none';
