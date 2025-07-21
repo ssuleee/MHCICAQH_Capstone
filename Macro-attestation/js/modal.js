@@ -26,6 +26,7 @@ export function showModal(index, modalState, approveUpdate, addEDTtoUpdateHistor
   document.getElementById('modal-new-value').value = modalState.originalNewValue;
   document.getElementById('modal-old-value').textContent = modalState.oldValue;
   document.getElementById('modal-link').href = modalState.link;
+  document.getElementById('modal-link').textContent = `Go to ${update.category} Page`;
   // Render update history with hyperlinks and external link icons
   const historyDiv = document.getElementById('modal-update-history');
   historyDiv.innerHTML = '';

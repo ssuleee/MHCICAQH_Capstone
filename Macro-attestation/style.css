@@ -521,6 +521,7 @@ body {
   color: #205CB6;
   text-decoration: underline;
   margin-bottom: 18px;
+  width: 150px;
   display: inline-block;
 }
 .modal-actions {

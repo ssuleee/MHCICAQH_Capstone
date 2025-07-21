@@ -33,7 +33,7 @@ window.updates = [
     newValue: '412-239-1234',
     oldValue: '412-239-9837',
     date: '2025-07-22T09:15',
-    source: 'Rx Minuteman Express',
+    source: 'Rx Minuteman Press',
     updateHistory: [
       {
         date: '7/22/2025',
