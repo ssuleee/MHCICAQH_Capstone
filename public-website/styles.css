@@ -174,7 +174,7 @@ p {
 .card-icon {
     width: 60px;
     height: 60px;
-    background: var(--gradient-primary);
+    background: var(--surface);
     border-radius: 1rem;
     display: flex;
     align-items: center;
@@ -187,6 +187,56 @@ p {
 .card h3 {
     color: var(--dark-blue);
     margin-bottom: 1rem;
+}
+
+.card-image {
+    width: 50%;
+    height: auto;
+    object-fit: cover;
+}
+
+/* Card with image layout */
+.card-with-image {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+}
+
+.card-with-image .card-content {
+    flex: 1;
+}
+
+.card-with-image .card-image {
+    width: 40%;
+    height: auto;
+    border-radius: 0.5rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+@media (max-width: 768px) {
+    .card-with-image {
+        flex-direction: column;
+    }
+    
+    .card-with-image .card-image {
+        width: 100%;
+    }
+}
+
+/* Section images */
+.section-image {
+    max-width: 100%;
+    width: 80%;
+    height: auto;
+    border-radius: 1rem;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    margin: 0 auto;
+}
+
+@media (max-width: 768px) {
+    .section-image {
+        width: 100%;
+    }
 }
 
 /* Buttons */
