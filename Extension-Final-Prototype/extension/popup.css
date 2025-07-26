@@ -1,0 +1,397 @@
+body {
+    margin: 0;
+    padding: 0;
+    width: 400px;
+    height: 700px;
+    font-family: 'Lato', sans-serif;
+    background: #EAF4FB;
+    color: #2F3E5B;
+    overflow: hidden;
+}
+
+.popup-container {
+    width: 400px;
+    height: 700px;
+    box-sizing: border-box;
+    background: #EAF4FB;
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    padding: 0;
+    padding-top:20px;
+}
+
+.popup-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 0 32px 0 32px;
+    position: relative;
+    margin: 0;
+}
+.caqh-logo {
+    width: 80px;
+    height: auto;
+    margin-top: 2px;
+}
+.close-btn {
+    background: none;
+    border: none;
+    font-size: 2rem;
+    color: #B0B7C3;
+    cursor: pointer;
+    margin-left: 16px;
+    margin-top: 2px;
+    line-height: 1;
+    padding: 0;
+    transition: color 0.2s;
+}
+.close-btn:hover {
+    color: #7A869A;
+}
+
+.popup-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0 32px;
+    box-sizing: border-box;
+}
+
+.popup-title {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #0072CE;
+    margin: 24px 0 8px 0;
+    text-align: left;
+    width: 100%;
+}
+
+.popup-desc {
+    color: #0072CE;
+    font-size: 1rem;
+    margin-bottom: 32px;
+    text-align: left;
+    width: 100%;
+}
+
+.popup-form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+.popup-form label {
+    font-size: 1rem;
+    color: #2F3E5B;
+    margin-bottom: 2px;
+    margin-top: 12px;
+}
+.popup-form input[type="text"],
+.popup-form input[type="password"] {
+    width: 100%;
+    padding: 8px 0 6px 0;
+    font-size: 1rem;
+    border: none;
+    border-bottom: 1.5px solid #DADADA;
+    border-radius: 0;
+    background: transparent;
+    color: #2F3E5B;
+    margin-bottom: 2px;
+    font-family: 'Lato', sans-serif;
+    box-sizing: border-box;
+    outline: none;
+    transition: border-color 0.2s;
+}
+.popup-form input[type="text"]::placeholder,
+.popup-form input[type="password"]::placeholder {
+    color: #B0B7C3;
+    opacity: 1;
+    font-size: 1rem;
+    font-family: 'Lato', sans-serif;
+}
+.popup-form input[type="text"]:focus,
+.popup-form input[type="password"]:focus {
+    border-bottom: 1.5px solid #0072CE;
+}
+
+.popup-link {
+    color: #0072CE;
+    font-size: 0.95rem;
+    text-decoration: none;
+    margin-bottom: 8px;
+    margin-top: 2px;
+    display: inline-block;
+}
+.popup-link:hover {
+    text-decoration: underline;
+}
+
+.checkbox-row {
+    display: flex;
+    align-items: center;
+    margin: 12px 0 18px 0;
+}
+.checkbox-row input[type="checkbox"] {
+    accent-color: #4E5A72;
+    width: 18px;
+    height: 18px;
+    margin-right: 8px;
+}
+.checkbox-row label {
+    color: #4E5A72;
+    font-size: 0.85rem;
+    margin: 0;
+    cursor: pointer;
+}
+
+#autofill-btn,
+.continue-btn {
+    background: #0072CE;
+    color: #fff;
+    font-size: 1.1rem;
+    font-weight: 700;
+    border: none;
+    border-radius: 12px;
+    padding: 16px 0;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+#autofill-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+#autofill-btn:hover:not(:disabled) {
+    background: #005fa3;
+}
+
+.bottom-text {
+    color: #4E5A72;
+    font-size: 0.85rem;
+    text-align: center;
+    margin-top: 12px;
+    margin-bottom: 0;
+    width: 100%;
+}
+.bottom-text .register-link {
+    color: #0072CE;
+    text-decoration: underline;
+    font-weight: 500;
+}
+
+.location-card {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border: 1px solid #B0B7C3;
+    border-radius: 12px;
+    padding: 14px 12px;
+    margin-bottom: 10px;
+    background: #fff;
+    transition: height 0.3s;
+}
+.location-card input[type="checkbox"] {
+    align-self: center;
+    margin-top: 0;
+}
+.location-card.selected {
+    border: 1.5px solid #0072CE;
+    box-shadow: 0px 4px 4px -3px rgba(0, 114, 206, 0.2);
+}
+
+.search-bar-container {
+    width: 100%;
+    margin-bottom: 8px;
+    position: relative;
+}
+.search-bar-icon {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 18px;
+    height: 18px;
+    pointer-events: none;
+    opacity: 0.7;
+}
+.search-bar-input {
+    width: 100%;
+    padding: 8px 8px 8px 36px;
+    border-radius: 8px;
+    border: 1px solid #B0B7C3;
+    font-size: 1rem;
+    box-sizing: border-box;
+    font-family: 'Lato', sans-serif;
+    outline: none;
+    transition: border-color 0.2s;
+}
+.search-bar-input:focus {
+    border-color: #0072CE;
+}
+
+/* Confirmation Popup Styles */
+.confirmation-container {
+    border-radius: 16px;
+    padding: 32px 24px 24px 24px;
+    max-width: 420px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.confirmation-header {
+    color: #2d4a7a;
+    font-size: 1.15rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+    text-align: left;
+    width: 100%;
+}
+.confirmation-sub {
+    color: #1761a0;
+    font-size: 1.05rem;
+    margin-bottom: 18px;
+    text-align: left;
+    width: 100%;
+}
+.confirmation-card, .confirmation-card-wide {
+    background: none;
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+    padding: 0;
+    margin: 0 0 28px 0;
+    max-width: 330px;
+    width: 330px;
+}
+
+.confirmation-card-title {
+    color: #2d4a7a;
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 8px;
+}
+.confirmation-textarea {
+    width: 330px;
+    max-width: 100%;
+    min-width: 0;
+    font-size: 1rem;
+    font-family: 'Lato', Arial, sans-serif;
+    box-sizing: border-box;
+    padding: 10px 12px;
+    background: #fff;
+    color: #2d4a7a;
+    border-radius: 12px;
+    border: 2px solid #c7d7e6;
+    margin: 0;
+    display: block;
+    resize: vertical;
+    height: 80px;
+}
+.confirmation-edit-icon {
+    position: absolute;
+    right: 16px;
+    top: 16px;
+    width: 22px;
+    height: 22px;
+    cursor: pointer;
+    opacity: 0.7;
+}
+.confirmation-note {
+    font-size: 0.93rem;
+    color: #4E5A72;
+    margin-bottom: 18px;
+    width: 100%;
+}
+.confirmation-btn-row {
+    display: flex;
+    justify-content: center;
+    gap: 24px;
+    width: 100%;
+    margin-top: 10px;
+}
+.confirmation-btn {
+    min-width: 120px;
+    font-size: 1.08rem;
+    font-weight: 600;
+    border-radius: 10px;
+    padding: 12px 0;
+    cursor: pointer;
+    border: none;
+    transition: background 0.2s, color 0.2s, border 0.2s;
+}
+.confirmation-btn.update {
+    background: #1761a0;
+    color: #fff;
+}
+.confirmation-btn.update:hover {
+    background: #2d4a7a;
+}
+.confirmation-btn.skip {
+    background: #fff;
+    color: #1761a0;
+    border: 2px solid #1761a0;
+}
+.confirmation-btn.skip:hover {
+    background: #1761a0;
+    color: #fff;
+}
+
+.confirmation-card-wide {
+    width: 100%;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+.confirmation-lower {
+    margin-top: 32px;
+}
+
+.update-btn-row {
+    display: flex;
+    justify-content: center;
+    gap: 32px;
+    width: 100%;
+    margin-top: 10px;
+}
+.update-btn {
+    min-width: 160px;
+    font-size: 1.15rem;
+    font-weight: 500;
+    border-radius: 12px;
+    padding: 14px 0;
+    cursor: pointer;
+    border: none;
+    transition: background 0.2s, color 0.2s, border 0.2s;
+    outline: none;
+    box-shadow: none;
+}
+.update-btn.close {
+    background: #0072CE;
+    color: #fff;
+}
+.update-btn.close:hover {
+    background: #005fa3;
+}
+.update-btn.skip, .update-btn.attest {
+    background: #fff;
+    color: #0072CE;
+    border: 2px solid #0072CE;
+}
+.update-btn.skip:hover, .update-btn.attest:hover {
+    background: #0072CE;
+    color: #fff;
+}
+
+/* Remove default confirmation-btn styles if present */
+.confirmation-btn, .confirmation-btn-row {
+    all: unset;
+}
+
+@media (max-width: 400px), (max-height: 700px) {
+    .popup-container, body {
+        width: 100vw;
+        height: 100vh;
+    }
+} 

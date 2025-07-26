@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=400, initial-scale=1.0">
+    <title>Confirm Changes</title>
+    <link href="https://fonts.googleapis.com/css?family=Lato:400,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="popup.css">
+</head>
+<body style="background: #EAF4FB;">
+    <div class="popup-container">
+        <div class="popup-header">
+            <img src="images/logo.png" alt="CAQH Logo" class="caqh-logo">
+            <button class="close-btn" id="close-btn" aria-label="Close">&times;</button>
+        </div>
+        <div class="confirmation-container">
+            <div class="confirmation-header">It looks like this is a new or changed field.</div>
+            <div class="confirmation-sub">Would you like to add or update this information in your provider profile for your next CAQH attestation?*</div>
+            <div id="confirmation-fields"></div>
+            <div class="confirmation-lower">
+                <div class="confirmation-note">
+                    * This change will be saved as a draft. All profile updates must be reviewed and attested during your next CAQH attestation.<br><br>
+                    Keeping your information up to date helps patients find you and supports easier attestations with CAQH.
+                </div>
+                <div class="update-btn-row">
+                    <button class="update-btn close" id="update-btn">Update</button>
+                    <button class="update-btn skip" id="skip-btn">Skip</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="confirmation.js"></script>
+</body>
+</html> 

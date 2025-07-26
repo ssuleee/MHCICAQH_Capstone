@@ -893,14 +893,14 @@ function getMicroattestationPanel() {
       </div>
       
       <div style="margin-bottom: 16px;">
-        <p style="color: #6b7280; font-size: 0.9em; line-height: 1.4; margin: 0;">
-          * Changes will be saved as drafts. All profile updates must be reviewed and attested during your next CAQH attestation.
+        <p style=" line-height: 1.4; margin: 0;">
+          * Changes will be saved as drafts. All profile updates must be reviewed and attested to during your next CAQH attestation.
         </p>
       </div>
       
       <div style="display: flex; flex-direction: column; gap: 12px;">
         <button id="caqMicroUpdateAllBtn" style="background: #0072CE; color: #fff; font-weight: 600; font-size: 1em; padding: 14px 20px; border: none; border-radius: 8px; cursor: pointer; width: 100%;">
-          Save as Draft to CAQH
+          Save for review in CAQH
         </button>
         <button id="caqMicroCancelBtn" style="background: none; border: 2px solid #0072CE; color: #0072CE; font-weight: 600; font-size: 1em; padding: 12px 20px; border-radius: 8px; cursor: pointer; width: 100%;">
           Cancel
@@ -1408,15 +1408,16 @@ function showMicroattestationUpdateView() {
       </div>
       
       <div style="display: flex; flex-direction: column; gap: 12px;">
-        <button id="caqMicroBackToAutofillBtn" style="background: #0072CE; color: #fff; font-weight: 600; font-size: 1em; padding: 14px 20px; border: none; border-radius: 8px; cursor: pointer; width: 100%;">
+      <a href="https://carolinesijiafan.github.io/MHCICAQH_Capstone/Macro-attestation/index.html" target="_blank"><button id="caqMicroViewProfileBtn" style="background: #0072CE; color: #fff; font-weight: 600; font-size: 1em; padding: 14px 20px; border: none; border-radius: 8px; cursor: pointer; width: 100%;">
+          Review Updates in CAQH
+        </button></a>
+        <button id="caqMicroBackToAutofillBtn" style="background: none; border: 2px solid #0072CE; color: #0072CE; font-weight: 600; font-size: 1em; padding: 12px 20px; border-radius: 8px; cursor: pointer; width: 100%;">
           Back to Autofill
         </button>
         <button id="caqMicroBackToFormBtn" style="background: none; border: 2px solid #0072CE; color: #0072CE; font-weight: 600; font-size: 1em; padding: 12px 20px; border-radius: 8px; cursor: pointer; width: 100%;">
           Close
         </button>
-        <a href="https://proview.caqh.org/Login/Index?ReturnUrl=%2f" target="_blank"><button id="caqMicroViewProfileBtn" style="background: none; border: 2px solid #0072CE; color: #0072CE; font-weight: 600; font-size: 1em; padding: 12px 20px; border-radius: 8px; cursor: pointer; width: 100%;">
-          View in CAQH Profile
-        </button></a>
+        
       </div>
     </div>
   `;
@@ -2362,7 +2363,15 @@ if (caqPanel && !document.getElementById("caqhLogoTop")) {
   logoBar.style.height = "32px";
   logoBar.style.zIndex = "1102";
 
-  // Logo
+  // Logo wrapped in clickable link
+  const logoLink = document.createElement("a");
+  logoLink.href = "https://www.caqh.org/";
+  logoLink.target = "_blank";
+  logoLink.rel = "noopener noreferrer";
+  logoLink.style.display = "block";
+  logoLink.style.textDecoration = "none";
+  logoLink.title = "Visit CAQH.org";
+
   const logo = document.createElement("img");
   logo.src = "img/caqh-logo.png";
   logo.id = "caqhLogoTop";
@@ -2370,6 +2379,9 @@ if (caqPanel && !document.getElementById("caqhLogoTop")) {
   logo.style.height = "18px";
   logo.style.width = "auto";
   logo.style.display = "block";
+  logo.style.cursor = "pointer";
+
+  logoLink.appendChild(logo);
 
   // Right side container for profile icon and close button
   const rightSide = document.createElement("div");
@@ -2409,7 +2421,7 @@ if (caqPanel && !document.getElementById("caqhLogoTop")) {
 
     rightSide.appendChild(profileIcon);
     rightSide.appendChild(closeBtn);
-    logoBar.appendChild(logo);
+    logoBar.appendChild(logoLink);
     logoBar.appendChild(rightSide);
     caqPanel.insertBefore(logoBar, caqPanel.firstChild);
 
@@ -2464,7 +2476,9 @@ function showProfilePanel() {
           <div style="color: #374151; font-size: 1.1em;">${caqhProvider.npi}</div>
         </div>
       </div>
-      
+      <a href="https://proview.caqh.org/Login?Type=PR" target="_blank"><button id="caqMicroViewProfileBtn" style="background: #0072CE; color: #fff; font-weight: 600; font-size: 1em; padding: 14px 20px; border: none; border-radius: 8px; cursor: pointer; width: 100%; margin-bottom: 18px;">
+          View full CAQH Profile
+        </button></a>
       <button id="caqProfileLogOutBtn" style="background: none; border: 2px solid #0072CE; color: #0072CE; font-weight: 600; font-size: 1em; padding: 12px 24px; border-radius: 8px; cursor: pointer; width: 100%; text-align: center;">
         Log Out
       </button>

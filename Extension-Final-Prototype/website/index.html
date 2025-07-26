@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Service Location Address Demo</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Inter font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Fake Chrome Bar -->
+    <div class="chrome-bar">
+        <div class="chrome-nav">
+            <span class="chrome-btn back"></span>
+            <span class="chrome-btn forward"></span>
+            <span class="chrome-btn refresh"></span>
+        </div>
+        <div class="chrome-address">
+            <span class="chrome-lock">🔒</span>
+            <span class="chrome-url">https://provider.enrollment.dhs.pa.gov/</span>
+        </div>
+        <div class="chrome-extensions">
+            <button id="extension-btn" title="CAQH Autofill Demo"><img src="images/extension.svg" alt="Extension"></button>
+        </div>
+    </div>
+
+    <div class="main-layout">
+        <!-- Sidebar -->
+        <nav class="sidebar">
+            <div class="sidebar-logo"> 
+                <img src="images/DHS.png" alt="PA DHS Logo">
+            </div>
+            <ul class="sidebar-menu">
+                <li class="active">Service Location Address</li>
+                <li>Other Addresses</li>
+                <li>Specialties</li>
+                <li>Provider Eligibility Program (PEP)</li>
+                <li>Provider Identification</li>
+                <li>Additional Information</li>
+                <li>Provider Disclosures</li>
+                <li>Ownership / Control Interest</li>
+                <li>Attachments</li>
+                <li>Agreements</li>
+                <li>Summary</li>
+            </ul>
+        </nav>
+
+        <!-- Main Content -->
+        <div class="content-area">
+            <!-- Header Info Bar -->
+            <div class="info-bar">
+                <span><strong>ATN:</strong> 1101359453</span>
+                <span><strong>Provider Number:</strong> Pending</span>
+                <span><strong>Type:</strong> New Enrollment</span>
+                <span><strong>Start Date:</strong> 06/17/2025</span>
+                <span><strong>Completion By:</strong> 07/17/2025</span>
+            </div>
+            <!-- Section Title -->
+            <h2>Service Location Address</h2>
+            <div class="section-note">
+                Complete the fields on this page and select the Save and Continue button to continue with this application<br>
+                <span class="required">* Indicates a required field.</span><br>
+                <span class="attachment">📎 Indicates an attachment is required.</span>
+            </div>
+            <div class="section-header">Practitioner Information</div>
+            <form id="service-location-form">
+                <div class="form-grid">
+                    <div class="form-col">
+                        <div class="form-row"><label for="first-name">* First Name</label><input type="text" id="first-name" name="first-name" required></div>
+                        <div class="form-row"><label for="middle-name">Middle Name</label><input type="text" id="middle-name" name="middle-name"></div>
+                        <div class="form-row"><label for="last-name">* Last Name</label><input type="text" id="last-name" name="last-name" required></div>
+                        <div class="form-row"><label for="phone">* Phone Number</label><input type="tel" id="phone" name="phone" required placeholder="###-###-####"></div>
+                        <div class="form-row"><label for="phone-ext">Phone Extension</label><input type="text" id="phone-ext" name="phone-ext"></div>
+                        <div class="form-row"><label for="fax">Fax Number</label><input type="tel" id="fax" name="fax" placeholder="###-###-####"></div>
+                        <div class="form-row"><label for="email">* Email</label><input type="email" id="email" name="email" required></div>
+                    </div>
+                    <div class="form-col">
+                        <div class="form-row"><label for="npi">* NPI Number</label><input type="text" id="npi" name="npi" required placeholder="10-digit NPI"></div>
+                        <div class="form-row"><label for="license-number">* Licensing Number</label><input type="text" id="license-number" name="license-number" required></div>
+                        <div class="form-row"><label for="license-state">* Licensing State</label><select id="license-state" name="license-state" required><option value="">Select State</option><option value="PA">PA - Pennsylvania</option></select></div>
+                        <div class="form-row"><label for="license-exp">* Licensing Expiration Date</label><input type="text" id="license-exp" name="license-exp" required placeholder="yyyy/mm/dd"></div>
+                    </div>
+                </div>
+                <div class="section-header small">Service Location Physical Address</div>
+                <div class="section-desc">
+                    This address must be a physical address where a practitioner maintains an office, holds office hours/sets appointments and renders services. A post office box is not a valid Service Location Physical Address.<br>
+                    Verify your selection of the service location physical address state prior to saving this page. Once this information is saved, it cannot be changed. If this information is incorrect, you will need to begin a <a href="#">brand new</a> application.
+                </div>
+                <div id="locations-list">
+                    <div class="location-fields">
+                        <div class="form-grid">
+                            <div class="form-col">
+                                <div class="form-row"><label for="practice-location">Practice Location</label><input type="text" id="practice-location" name="practice-location"></div>
+                                <div class="form-row"><label for="practice-name">Practice Location Name</label><input type="text" id="practice-name" name="practice-name"></div>
+                                <div class="form-row"><label for="street">* Street</label><input type="text" id="street" name="street" required></div>
+                        <div class="form-row"><label for="room">Room/Suite</label><input type="text" id="room" name="room"></div>
+                            </div>
+                            <div class="form-col">
+                                <div class="form-row"><label for="city">* City</label><input type="text" id="city" name="city" required></div>
+                                <div class="form-row"><label for="state">* State</label><select id="state" name="state" required><option value="PA">PA - Pennsylvania</option></select></div>
+                                <div class="form-row"><label for="zip">* Zip+4</label><input type="text" id="zip" name="zip" required placeholder="12345 or 12345-6789"></div>
+                                <div class="form-row"><label for="county">* County</label><select id="county" name="county" required>
+                                    <option value="">Select a County</option>
+                                    <option value="Adams">Adams</option>
+                                    <option value="Allegheny">Allegheny</option>
+                                    <option value="Armstrong">Armstrong</option>
+                                    <option value="Beaver">Beaver</option>
+                                    <option value="Bedford">Bedford</option>
+                                    <option value="Berks">Berks</option>
+                                    <option value="Blair">Blair</option>
+                                    <option value="Bucks">Bucks</option>
+                                    <option value="Butler">Butler</option>
+                                    <option value="Cambria">Cambria</option>
+                                    <option value="Cameron">Cameron</option>
+                                    <option value="Carbon">Carbon</option>
+                                    <option value="Centre">Centre</option>
+                                    <option value="Chester">Chester</option>
+                                    <option value="Clarion">Clarion</option>
+                                    <option value="Clearfield">Clearfield</option>
+                                    <option value="Clinton">Clinton</option>
+                                    <option value="Columbia">Columbia</option>
+                                    <option value="Crawford">Crawford</option>
+                                    <option value="Cumberland">Cumberland</option>
+                                    <option value="Dauphin">Dauphin</option>
+                                    <option value="Delaware">Delaware</option>
+                                    <option value="Elk">Elk</option>
+                                    <option value="Erie">Erie</option>
+                                    <option value="Fayette">Fayette</option>
+                                    <option value="Forest">Forest</option>
+                                    <option value="Franklin">Franklin</option>
+                                    <option value="Fulton">Fulton</option>
+                                    <option value="Greene">Greene</option>
+                                    <option value="Huntingdon">Huntingdon</option>
+                                    <option value="Indiana">Indiana</option>
+                                    <option value="Jefferson">Jefferson</option>
+                                    <option value="Juniata">Juniata</option>
+                                    <option value="Lackawanna">Lackawanna</option>
+                                    <option value="Lancaster">Lancaster</option>
+                                    <option value="Lawrence">Lawrence</option>
+                                    <option value="Lebanon">Lebanon</option>
+                                    <option value="Lehigh">Lehigh</option>
+                                    <option value="Luzerne">Luzerne</option>
+                                    <option value="Lycoming">Lycoming</option>
+                                    <option value="McKean">McKean</option>
+                                    <option value="Monroe">Monroe</option>
+                                    <option value="Montgomery">Montgomery</option>
+                                    <option value="Montour">Montour</option>
+                                    <option value="Northampton">Northampton</option>
+                                    <option value="Northumberland">Northumberland</option>
+                                    <option value="Perry">Perry</option>
+                                    <option value="Philadelphia">Philadelphia</option>
+                                    <option value="Pike">Pike</option>
+                                    <option value="Potter">Potter</option>
+                                    <option value="Schuylkill">Schuylkill</option>
+                                    <option value="Snyder">Snyder</option>
+                                    <option value="Somerset">Somerset</option>
+                                    <option value="Sullivan">Sullivan</option>
+                                    <option value="Susquehanna">Susquehanna</option>
+                                    <option value="Tioga">Tioga</option>
+                                    <option value="Union">Union</option>
+                                    <option value="Venango">Venango</option>
+                                    <option value="Warren">Warren</option>
+                                    <option value="Washington">Washington</option>
+                                    <option value="Wayne">Wayne</option>
+                                    <option value="Westmoreland">Westmoreland</option>
+                                    <option value="Wyoming">Wyoming</option>
+                                    <option value="York">York</option>
+                                </select></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button type="button" id="add-location-btn">+ Add one location</button>
+                <button type="submit">Save and Continue</button>
+            </form>
+            <div class="section-desc small">
+                After this information is saved, you will have the option to enter different address information for Mail-To, Pay-To, and Home Office Addresses on a separate page.
+            </div>
+        </div>
+    </div>
+
+    <!-- Fake Extension Popup (hidden by default) -->
+    <div id="extension-popup" class="extension-popup" style="display:none;">
+        <iframe src="../extension/popup.html" frameborder="0" width="400" height="700" style="border-radius:12px; box-shadow:0 4px 24px rgba(47,62,91,0.10); background:#EAF4FB;"></iframe>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html> 
