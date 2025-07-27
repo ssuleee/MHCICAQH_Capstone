@@ -190,8 +190,9 @@ function initStatsAnimation() {
  */
 function animateNumber(element) {
   const text = element.textContent;
+  const hasDollarSign = text.includes('$');
   const number = parseInt(text.replace(/[^\d]/g, ""));
-  const suffix = text.replace(/[\d]/g, "");
+  const suffix = text.replace(/[\d]/g, "").replace('$', '');
 
   if (isNaN(number)) return;
 
@@ -206,14 +207,20 @@ function animateNumber(element) {
       clearInterval(timer);
     }
 
+    let formattedNumber;
     if (number >= 1000000) {
-      element.textContent =
-        (current / 1000000).toFixed(1) + "M" + suffix.replace(/[\d.M]/g, "");
+      formattedNumber = (current / 1000000).toFixed(1) + "M" + suffix.replace(/[\d.M]/g, "");
     } else if (number >= 1000) {
-      element.textContent =
-        (current / 1000).toFixed(1) + "K" + suffix.replace(/[\d.K]/g, "");
+      formattedNumber = (current / 1000).toFixed(1) + "K" + suffix.replace(/[\d.K]/g, "");
     } else {
-      element.textContent = Math.floor(current) + suffix.replace(/[\d]/g, "");
+      formattedNumber = Math.floor(current) + suffix.replace(/[\d]/g, "");
+    }
+
+    // Preserve dollar sign position
+    if (hasDollarSign) {
+      element.textContent = "$" + formattedNumber;
+    } else {
+      element.textContent = formattedNumber;
     }
   }, 16);
 }
